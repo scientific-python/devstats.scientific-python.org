@@ -1,0 +1,13 @@
+query {
+  repository(owner:"numpy", name:"numpy") {
+    issues(first:100 states:OPEN) {
+      edges {
+        node {
+          timelineItems(first:20, itemTypes:CROSS_REFERENCED_EVENT){
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}

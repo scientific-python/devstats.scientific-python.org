@@ -1,0 +1,7 @@
+query totalOpenIssues{
+  repository(owner:"numpy", name:"numpy") {
+    issues(states:OPEN) {
+      totalCount
+    }
+  }
+}
