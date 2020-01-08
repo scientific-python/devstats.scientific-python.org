@@ -5,6 +5,7 @@ query {
       edges {
         cursor
         node {
+          number
           timelineItems(first:100, itemTypes:CROSS_REFERENCED_EVENT){
             totalCount
           }
