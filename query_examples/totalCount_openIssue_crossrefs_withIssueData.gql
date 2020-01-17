@@ -1,4 +1,4 @@
-query {                                                                         
+query {                                                                        
   repository(owner:"numpy", name:"numpy") {                                     
     issues(first:100 states:OPEN) {
       totalCount
@@ -8,27 +8,9 @@ query {
           number
           title
           createdAt
+          url
           timelineItems(first:100, itemTypes:CROSS_REFERENCED_EVENT){            
-            totalCount 
-            edges{
-              node{
-                ... on CrossReferencedEvent {
-                  source{
-                    ... on Issue {
-                      __typename
-                      number
-                      closed
-                    }
-                  ... on PullRequest {
-                    __typename
-                    number
-                    closed
-                  }
-                  }
-                  isCrossRepository
-                }
-              }
-            }
+            totalCount                                                          
           }                                                                     
         }                                                                       
       }                                                                         
