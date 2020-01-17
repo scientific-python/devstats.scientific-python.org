@@ -1,0 +1,5 @@
+requests
+jupyter
+notebook
+numpy
+networkx
