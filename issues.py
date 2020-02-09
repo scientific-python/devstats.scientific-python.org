@@ -52,6 +52,34 @@ def parse_single_issue_query(data):
     last_cursor = data[-1]['cursor']
     return data, last_cursor, total_num_issues
 
+def to_ndata(data):
+    """
+    Parse the raw json returned by a GitHub GraphQL query into an issue
+    dictionary.
+
+    Parameters
+    ----------
+    data : dict
+        The result of `get_all_responses` or `parse_single_issue_query`
+
+    Returns
+    -------
+    ndata : dict
+        A dictionary of issues where the keys are the issue numbers.
+        This is the data format expected by subsequent filtering/summarizing
+        functions.
+    """
+    # Dict & list comps to decompose json
+    ndata = {
+        n['node']['number'] : {
+            'title' : n['node']['title'],
+            'url'   : n['node']['url'],
+            'numrefs' : n['node']['timelineItems']['totalCount'],
+            'labels'  : [lbl['node']['name'] for lbl in n['node']['labels']['edges']]
+        } for n in data
+    }
+    return ndata
+
 def filter_issues_by_label(ndata, labels_to_filter=("Triaged",)):
     """
     Remove nodes from parsed node data if the node's labels contain any of
@@ -60,7 +88,8 @@ def filter_issues_by_label(ndata, labels_to_filter=("Triaged",)):
     Parameters
     ----------
     ndata : dict
-        Dictionary of node data parsed from query response
+        Dictionary of node data parsed from query response.
+        Result of to_ndata(query_response)
 
     labels_to_filter : tuple
         Tuple of strings containing the names of labels to filter by
@@ -86,7 +115,8 @@ def filter_issues_apply_blacklist(ndata, blacklist):
     Parameters
     ----------
     ndata : dict
-        Dictionary of node data parsed from query response
+        Dictionary of node data parsed from query response.
+        Result of to_ndata(query_response)
 
     blacklist: tuple
         Tuple of ints containing the issue IDs to filter.
@@ -104,17 +134,18 @@ def filter_issues_apply_blacklist(ndata, blacklist):
         k : v for k, v in ndata.items() if k not in blacklist
     }
 
-def generate_top_issues_summary(data=None, num_issues=10):
+def generate_top_issues_summary(ndata, num_issues=10):
     """
-    Generate a markdown-formatted table of NumPy issues sorted by 
+    Generate a markdown-formatted table of GitHub issues sorted by 
     cross-reference count.
 
     Parameters
     ----------
     num_issues : int
         Number of issues to include in the summary table. Default = 10.
-    data : query_result
-        Result of an issue query. If :None:, the query is performed.
+    ndata : dict
+        Dictionary of node data parsed from query repsonse.
+        Result of to_ndata(query_response)
 
     Returns
     -------
@@ -122,26 +153,13 @@ def generate_top_issues_summary(data=None, num_issues=10):
         A string containing a markdown-formatted table with the issue number,
         number of cross-references, and issue title/url.
     """
-    if data is None:
-        data = get_all_responses(
-            'query_examples/totalCount_openIssue_crossrefs_withIssueData.gql'
-        )
-
-    # Parse data into dict of dicts with key=issue number
-    node_data = {
-        n['node']['number'] : {
-            "title"   : n['node']['title'],
-            "url"     : n['node']['url'],
-            "numrefs" : n['node']['timelineItems']['totalCount']
-        } for n in data
-    }
 
     # Initialize table
     mdtable =  '|Iss. \#| xrefs | Issue |\n'
     mdtable += '|:-----:|:------|:------|\n'
 
     # Sort data by num xrefs and generate summary
-    for node in sorted(node_data.items(), key=lambda x: x[1]['numrefs'], reverse=True)[:num_issues]:
+    for node in sorted(ndata.items(), key=lambda x: x[1]['numrefs'], reverse=True)[:num_issues]:
         mdtable += '|{}|{}|[{}]({})\n'.format(
             node[0],
             node[1]['numrefs'],
