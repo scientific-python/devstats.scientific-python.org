@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import click
 
 token = os.environ['GRAPH_API_KEY']
 endpoint = r'https://api.github.com/graphql'
@@ -97,5 +98,6 @@ def generate_top_issues_summary(data=None, num_issues=10):
         )
     return mdtable
 
-if __name__ == "__main__":
+@click.command()
+def cli():
     pass
