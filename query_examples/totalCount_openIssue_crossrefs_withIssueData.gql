@@ -9,6 +9,13 @@ query {
           title
           createdAt
           url
+          labels(first:100) {
+            edges {
+              node {
+                name 
+              }
+            }
+          }
           timelineItems(first:100, itemTypes:CROSS_REFERENCED_EVENT){            
             totalCount                                                          
           }                                                                     
