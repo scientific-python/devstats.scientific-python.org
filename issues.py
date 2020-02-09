@@ -78,6 +78,32 @@ def filter_issues_by_label(ndata, labels_to_filter=("Triaged",)):
         k : v for k, v in ndata.items() if len(lbls.intersection(set(v['labels']))) == 0
     }
 
+def filter_issues_apply_blacklist(ndata, blacklist):
+    """
+    Remove nodes from parsed node data if the node's number (i.e. the issue
+    number) is on the blacklist.
+
+    Parameters
+    ----------
+    ndata : dict
+        Dictionary of node data parsed from query response
+
+    blacklist: tuple
+        Tuple of ints containing the issue IDs to filter.
+
+    Returns
+    -------
+    filtered_ndata : dict
+        Dictionary of node data with specified nodes filtered out.
+    """
+    if type(blacklist) is not tuple:
+        raise TypeError('blacklist bust be a tuple of integers')
+    blacklist = set(blacklist)
+
+    return {
+        k : v for k, v in ndata.items() if k not in blacklist
+    }
+
 def generate_top_issues_summary(data=None, num_issues=10):
     """
     Generate a markdown-formatted table of NumPy issues sorted by 
