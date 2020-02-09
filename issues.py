@@ -52,6 +52,32 @@ def parse_single_issue_query(data):
     last_cursor = data[-1]['cursor']
     return data, last_cursor, total_num_issues
 
+def filter_issues_by_label(ndata, labels_to_filter=("Triaged",)):
+    """
+    Remove nodes from parsed node data if the node's labels contain any of
+    the labels in labels_to_filter
+
+    Parameters
+    ----------
+    ndata : dict
+        Dictionary of node data parsed from query response
+
+    labels_to_filter : tuple
+        Tuple of strings containing the names of labels to filter by
+
+    Returns
+    -------
+    filtered_ndata : dict
+        Dictionary of node data with specified nodes filtered out.
+    """
+    if type(labels_to_filter) is not tuple:
+        raise TypeError('labels_to_filter must be a tuple of strings')
+    lbls = set(labels_to_filter)
+
+    return { 
+        k : v for k, v in ndata.items() if len(lbls.intersection(set(v['labels']))) == 0
+    }
+
 def generate_top_issues_summary(data=None, num_issues=10):
     """
     Generate a markdown-formatted table of NumPy issues sorted by 
