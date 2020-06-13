@@ -1,5 +1,6 @@
 __pycache__/*
 .ipynb_checkpoints/*
 *.swp
+*.egg-info
 # Ignore text version of issues table
 top_issues_table.md
