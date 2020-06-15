@@ -257,3 +257,11 @@ class GithubIssueGrabber:
 @click.command()
 def cli():
     pass
+
+
+if __name__ == "__main__":
+    grabber = GithubIssueGrabber(
+        'query_examples/totalCount_openIssue_crossrefs_withIssueData.gql'
+    )
+    grabber.get()
+    grabber.dump("_data/issues.json")
