@@ -3,9 +3,45 @@ import requests
 import json
 import click
 
-token = os.environ['GRAPH_API_KEY']
-endpoint = r'https://api.github.com/graphql'
-headers = {'Authorization': 'bearer {}'.format(token)}
+token = os.environ["GRAPH_API_KEY"]
+endpoint = r"https://api.github.com/graphql"
+headers = {"Authorization": "bearer {}".format(token)}
+
+
+def load_query_from_file(fname, repo_owner="numpy", repo_name="numpy"):
+    """
+    Load an 'issue' query from file and set the target repository, where
+    the target repository has the format:
+    
+    https://github.com/<repo_owner>/<repo_name>
+    
+    Parameters
+    ----------
+    fname : str
+        Path to a text file containing a valid issue query according to the 
+        GitHub GraphQL schema.
+    repo_owner : str
+        Owner of target repository on GitHub. Default is 'numpy'.
+    repo_name : str
+        Name of target repository on GitHub. Default is 'numpy'.
+    
+    Returns
+    -------
+    query : str
+        Query loaded from file in text form suitable for ``send_query``.
+
+    Notes
+    -----
+    This function expects the query to have a specific form and will not work
+    for general GitHub GraphQL queries. See ``examples/`` for some valid
+    templated issue queries.
+    """
+    with open(fname, "r") as fh:
+        query = fh.read()
+        # Set target repo from template
+        query = query.replace("_REPO_OWNER_", repo_owner)
+        query = query.replace("_REPO_NAME_", repo_name)
+    return query
 
 
 def send_query(query, cursor=None):

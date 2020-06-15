@@ -1,5 +1,5 @@
 query {                                                                        
-  repository(owner:"numpy", name:"numpy") {                                     
+  repository(owner:"_REPO_OWNER_", name:"_REPO_NAME_") {                                     
     issues(first:100 states:OPEN) {
       totalCount
       edges {

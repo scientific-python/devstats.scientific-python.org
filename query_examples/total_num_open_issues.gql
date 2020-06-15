@@ -1,5 +1,5 @@
 query totalOpenIssues{
-  repository(owner:"numpy", name:"numpy") {
+  repository(owner:"_REPO_OWNER_", name:"_REPO_NAME_") {
     issues(states:OPEN) {
       totalCount
     }
