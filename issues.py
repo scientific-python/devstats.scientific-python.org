@@ -202,6 +202,58 @@ def generate_top_issues_summary(ndata, num_issues=10):
         )
     return mdtable
 
+
+class GithubIssueGrabber:
+    """
+    Pull down data via the GitHub APIv.4 given a valid GraphQL query.
+    """
+
+    def __init__(self, query_fname, repo_owner="numpy", repo_name="numpy"):
+        """
+        Create an object to send/recv queries related to the issue tracker
+        for the given repository via the GitHub API v.4.
+
+        The repository to query against is given by:
+        https://github.com/<repo_owner>/<repo_name>
+
+        Parameters
+        ----------
+        query_fname : str
+            Path to a valid GraphQL query conforming to the GitHub GraphQL
+            schema
+        repo_owner : str
+            Repository owner. Default is "numpy"
+        repo_name : str
+            Repository name. Default is "numpy"
+        """
+        self.query_fname = query_fname
+        self.repo_owner = repo_owner
+        self.repo_name = repo_name
+        self.raw_data = None
+        self.load_query()
+
+    def load_query(self):
+        self.query = load_query_from_file(
+            self.query_fname, self.repo_owner, self.repo_name
+        )
+
+    def get(self):
+        """
+        Get JSON-formatted raw data from the query.
+        """
+        self.raw_data = get_all_responses(self.query)
+
+    def dump(self, outfile):
+        """
+        Dump raw json to `outfile`.
+        """
+        if not self.raw_data:
+            raise ValueError("raw_data is currently empty, nothing to dump")
+
+        with open(outfile, "w") as outf:
+            json.dump(self.raw_data, outf)
+
+
 @click.command()
 def cli():
     pass
