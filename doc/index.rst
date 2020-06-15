@@ -5,6 +5,8 @@ Welcome to static-issues-summary's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   content/edge_counting
+
 
 
 Indices and tables
