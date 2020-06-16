@@ -260,8 +260,6 @@ def cli():
 
 
 if __name__ == "__main__":
-    grabber = GithubIssueGrabber(
-        'query_examples/totalCount_openIssue_crossrefs_withIssueData.gql'
-    )
+    grabber = GithubIssueGrabber('query_examples/max_issue_data.gql')
     grabber.get()
     grabber.dump("_data/issues.json")
