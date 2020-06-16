@@ -17,7 +17,7 @@ kernelspec:
 :tags: [remove-cell]
 
 import json
-from issues import to_ndata, generate_top_issues_summary
+from issues import to_ndata, generate_table
 from myst_nb import glue
 ```
 
@@ -27,7 +27,7 @@ itself.
 Let's build a basic issue graph using `networkx` to see if we can derive any
 insight with a slightly more detailed analysis.
 
-```{code-block}
+```{code-cell}
 import networkx as nx
 ```
 
@@ -36,8 +36,8 @@ import networkx as nx
 Let's model the issues as an unweighted, bidirectional graph with issues as
 nodes and cross-references representing the edges.
 
-```{code-block}
-with open(../../_data/issues.json) as fh:
+```{code-cell}
+with open("../../_data/issues.json", "r") as fh:
     data = json.load(fh)
 # Create "node data" from the raw json
 ndata = to_ndata(data)
@@ -50,7 +50,7 @@ origin of the cross-reference* -- references from other repositories were
 treated the same as intra-repository references.
 In this analysis, we'll focus only on intra-repository references.
 
-```{code-block}
+```{code-cell}
 nodes = [n['number'] for n in data]
 edges = []
 for node in data:
@@ -63,11 +63,47 @@ for node in data:
             )
 ```
 
-We then instantiate the graph with an enumeration of the nodes and edges from
-the raw data.
+Note also that we did not discriminate against *closed issues* or 
+*pull requests* when compiling the list of edges.
+Thus the graph we're building may contain edges to nodes that are *not* in 
+`ndata`, which only comprises open issues.
+This is an important thing to keep in mind for the subsequent analysis.
 
-```{code-block}
+```{code-cell}
 issue_graph = nx.Graph()
 issue_graph.add_nodes_from(nodes)
 issue_graph.add_edges_from(edges)
+```
+
+## Number of cross-references, redux
+
+We can get the number of cross-references for any issue by looking at the
+*degree*[^degree] of each node.
+At face value, one might expect the result to be identical to the 
+{ref}`edge-counting table <tbl:edge_count>`.
+However, this graph only counts intra-repository references, so any issues
+that were commonly linked from external repositories won't show up here.
+
+[^degree]: The degree of a node is given by the number of edges adjacent to it.
+
+```{code-cell}
+# Limit degree calculation to nodes representing open issues
+degree = dict(issue_graph.degree(nbunch=ndata.keys()))
+# Sort by degree
+degree = sorted(degree, key=degree.get, reverse=True)
+```
+
+Now we can look at the open issues sorted by the number of intra-respository
+cross-references:
+
+% NOTE: Work-around until myst-nb supports formatted markdown in cell outputs
+```{code-cell}
+:tags: [remove-cell]
+
+md_table = generate_table(ndata, degree, num_issues=25)
+with open('_generated/degree_table.md', 'w') as of:
+    of.write(md_table)
+```
+
+```{include} _generated/degree_table.md
 ```

@@ -69,6 +69,7 @@ glue("num_issues", num_issues_to_display, display=False)
 
 ## Top {glue:text}`num_issues` issues by number of cross-references
 
+(tbl:edge_count)=
 ````{admonition} Click to show/hide table
 :class: toggle
 
