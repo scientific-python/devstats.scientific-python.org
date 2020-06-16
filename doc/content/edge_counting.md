@@ -40,6 +40,12 @@ Thus reporting the most referenced issue is as simple as sorting the query
 results by the `numrefs` attribute in reverse order.
 
 ```{code-cell}
-from IPython.display import Markdown
-Markdown(generate_top_issues_summary(data, num_issues=25))
+:tags: [hide-input]
+
+table = generate_top_issues_summary(data, num_issues=25)
+with open("_generated/issues_table_sortedByNumrefs", 'w') as of:
+    of.write(table)
+```
+
+```{include} _generated/issues_table_sortedByNumrefs
 ```
