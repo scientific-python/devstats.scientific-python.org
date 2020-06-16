@@ -22,10 +22,9 @@ from myst_nb import glue
 ```
 
 The number of times a particular issue has been cross-referenced can serve as
-a rudimentary measure for how "important" the issue is.
-One nice thing about using the GraphQL API for obtaining the issues is that
-we get a rudimentary measure of the number of edges for free from the query
-itself, without having to do any extra analysis!
+a rudimentary measure of the "importance" of the issue.
+The GraphQL API is nice in that it gives us the number of cross references
+"for free" from the query itself.
 
 First, we load the data and use `to_ndata` to make the raw JSON of the query
 response a bit easier to navigate.
@@ -35,12 +34,24 @@ with open('../../_data/issues.json', 'r') as fh:
     data = to_ndata(json.load(fh))
 ```
 
-The query itself was structured in such a way that issues themselves are
-treated as nodes in a graph model, while the `numrefs` attribute reflects the
-total number of times that each node is referenced.
+The query used to acquire the data was structured in such a way that issues
+themselves are treated as nodes in a graph, while the `numrefs` attribute
+reflects the total number of times that each node is referenced.
 
 Thus reporting the most referenced issue is as simple as sorting the query
-results by the `numrefs` attribute in reverse order.
+results by the `numrefs` attribute in reverse order:
+
+```{code-block} python
+---
+name: code:numref_sort
+caption: |
+    Create a generator that returns the nodes (i.e. issues) ordered by the
+    total number of times each issue is referenced.
+---
+
+# The numrefs attr is part of the data dictionary attached to each node
+sorted(ndata.items(), key=lambda x: x[1]['numrefs'], reverse=True)
+```
 
 ```{code-cell}
 :tags: [hide-input]
@@ -54,12 +65,14 @@ with open("_generated/issues_table_sortedByNumrefs", 'w') as of:
 glue("num_issues", num_issues_to_display, display=False)
 ```
 
+The following table is compiled using the strategy in 
+{numref}`code:numref_sort`.
+
 ## Top {glue:text}`num_issues` issues by number of cross-references
 
 ````{admonition} Click to show/hide table
 :class: toggle
 
 ```{include} _generated/issues_table_sortedByNumrefs
-:class: toggle
 ```
 ````
