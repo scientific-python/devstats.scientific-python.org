@@ -14,8 +14,11 @@ kernelspec:
 # Counting cross-references
 
 ```{code-cell}
+:tags: [hide-cell]
+
 import json
 from issues import to_ndata, generate_top_issues_summary
+from myst_nb import glue
 ```
 
 The number of times a particular issue has been cross-referenced can serve as
@@ -42,14 +45,21 @@ results by the `numrefs` attribute in reverse order.
 ```{code-cell}
 :tags: [hide-input]
 
+num_issues_to_display = 25
 table = generate_top_issues_summary(data, num_issues=25)
 with open("_generated/issues_table_sortedByNumrefs", 'w') as of:
     of.write(table)
+
+# For referencing in text
+glue("num_issues", num_issues_to_display, display=False)
 ```
 
-````{admonition} 25 most cross-referenced issues
+## Top {glue:text}`num_issues` issues by number of cross-references
+
+````{admonition} Click to show/hide table
 :class: toggle
 
 ```{include} _generated/issues_table_sortedByNumrefs
+:class: toggle
 ```
 ````
