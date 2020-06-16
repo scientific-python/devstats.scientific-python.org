@@ -1,4 +1,7 @@
+# For the site
 sphinx<3.0
 myst-nb
 ghp-import
 pydata-sphinx-theme
+# For analysis
+networkx

@@ -6,6 +6,7 @@ Welcome to static-issues-summary's documentation!
    :caption: Contents:
 
    content/edge_counting
+   content/basic_graph_analysis
 
 
 
