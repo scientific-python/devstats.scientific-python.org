@@ -13,17 +13,34 @@ kernelspec:
 
 # Counting cross-references
 
-%```{code-cell}
-%import json
-%from issues import to_ndata
-%```
-%
-%
-%The number of times a particular issue has been cross-referenced can serve as
-%a rudimentary measure for how "important" the issue is.
-%
-%```{code-cell}
-%with open('../../_data/issues.json', 'r') as fh:
-%    data = to_ndata(json.load(fh))
-%```
-%
+```{code-cell}
+import json
+from issues import to_ndata, generate_top_issues_summary
+```
+
+The number of times a particular issue has been cross-referenced can serve as
+a rudimentary measure for how "important" the issue is.
+One nice thing about using the GraphQL API for obtaining the issues is that
+we get a rudimentary measure of the number of edges for free from the query
+itself, without having to do any extra analysis!
+
+First, we load the data and use `to_ndata` to make the raw JSON of the query
+response a bit easier to navigate.
+
+```{code-cell}
+with open('../../_data/issues.json', 'r') as fh:
+    data = to_ndata(json.load(fh))
+```
+
+The query itself was structured in such a way that issues themselves are
+treated as nodes in a graph model, while the `numrefs` attribute reflects the
+total number of times that each node is referenced.
+
+Thus reporting the most referenced issue is as simple as sorting the query
+results by the `numrefs` attribute in reverse order.
+
+```{code-cell}
+:tags: [hide-input]
+
+generate_top_issues_summary(data, num_issues=25)
+```
