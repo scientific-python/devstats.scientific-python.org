@@ -47,5 +47,9 @@ with open("_generated/issues_table_sortedByNumrefs", 'w') as of:
     of.write(table)
 ```
 
+````{admonition} 25 most cross-referenced issues
+:class: toggle
+
 ```{include} _generated/issues_table_sortedByNumrefs
 ```
+````
