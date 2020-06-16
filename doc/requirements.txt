@@ -1,2 +1,4 @@
 sphinx<3.0
 myst-nb
+ghp-import
+pydata-sphinx-theme
