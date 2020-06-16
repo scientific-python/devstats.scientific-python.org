@@ -14,7 +14,7 @@ kernelspec:
 # Counting cross-references
 
 ```{code-cell}
-:tags: [hide-cell]
+:tags: [remove-cell]
 
 import json
 from issues import to_ndata, generate_top_issues_summary
@@ -26,17 +26,16 @@ a rudimentary measure of the "importance" of the issue.
 The GraphQL API is nice in that it gives us the number of cross references
 "for free" from the query itself.
 
-First, we load the data and use `to_ndata` to make the raw JSON of the query
-response a bit easier to navigate.
-
-```{code-cell}
-with open('../../_data/issues.json', 'r') as fh:
-    data = to_ndata(json.load(fh))
-```
-
 The query used to acquire the data was structured in such a way that issues
 themselves are treated as nodes in a graph, while the `numrefs` attribute
 reflects the total number of times that each node is referenced.
+
+```{code-cell}
+:tags: [remove-cell]
+
+with open('../../_data/issues.json', 'r') as fh:
+    data = to_ndata(json.load(fh))
+```
 
 Thus reporting the most referenced issue is as simple as sorting the query
 results by the `numrefs` attribute in reverse order:
@@ -53,6 +52,9 @@ caption: |
 sorted(ndata.items(), key=lambda x: x[1]['numrefs'], reverse=True)
 ```
 
+The following table is compiled using the strategy in 
+{numref}`code:numref_sort`.
+
 ```{code-cell}
 :tags: [hide-input]
 
@@ -64,9 +66,6 @@ with open("_generated/issues_table_sortedByNumrefs", 'w') as of:
 # For referencing in text
 glue("num_issues", num_issues_to_display, display=False)
 ```
-
-The following table is compiled using the strategy in 
-{numref}`code:numref_sort`.
 
 ## Top {glue:text}`num_issues` issues by number of cross-references
 
