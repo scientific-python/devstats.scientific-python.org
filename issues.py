@@ -168,6 +168,26 @@ def filter_issues_apply_blacklist(ndata, blacklist):
         k : v for k, v in ndata.items() if k not in blacklist
     }
 
+def generate_table(ndata, idx, num_issues=10):
+    """
+    Generate a markdown-formatted table from the first `num_issues` nodes
+    in `idx`.
+    """
+    # Initialize table
+    mdtable =  '|Iss. \#| xrefs | Issue |\n'
+    mdtable += '|:-----:|:------|:------|\n'
+
+    for issue_num in idx[:num_issues]:
+        node = ndata[issue_num]
+        mdtable += '|{}|{}|[{}]({})\n'.format(
+            issue_num,
+            node['numrefs'],
+            node['title'],
+            node['url']
+        )
+    return mdtable
+
+
 def generate_top_issues_summary(ndata, num_issues=10):
     """
     Generate a markdown-formatted table of GitHub issues sorted by 
