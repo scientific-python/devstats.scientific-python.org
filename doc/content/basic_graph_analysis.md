@@ -105,8 +105,12 @@ with open('_generated/degree_table.md', 'w') as of:
     of.write(md_table)
 ```
 
+````{admonition} Click to show/hide table
+:class: toggle
+
 ```{include} _generated/degree_table.md
 ```
+````
 
 ## Centrality
 
@@ -133,5 +137,9 @@ with open('_generated/centrality_table.md', 'w') as of:
     of.write(md_table)
 ```
 
+````{admonition} Click to show/hide table
+:class: toggle
+
 ```{include} _generated/centrality_table.md
 ```
+````
