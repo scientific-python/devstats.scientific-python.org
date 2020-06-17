@@ -107,3 +107,31 @@ with open('_generated/degree_table.md', 'w') as of:
 
 ```{include} _generated/degree_table.md
 ```
+
+## Centrality
+
+Now that we have constructed the graph model of the issues, we can use the
+`networkx` utilities to look at other properties of the graph. 
+For example, we can compute the *centrality* for each node in the graph
+model.
+
+```{code-cell}
+centrality = nx.betweenness_centrality(issue_graph)
+
+# Sort the nodes by centrality and limit the summary to open issues
+most_central = [
+    n for n in sorted(centrality, key=centrality.get, reverse=True)
+    if n in ndata.keys()
+]
+```
+
+```{code-cell}
+:tags: [remove-cell]
+
+md_table = generate_table(ndata, most_central, num_issues=25)
+with open('_generated/centrality_table.md', 'w') as of:
+    of.write(md_table)
+```
+
+```{include} _generated/centrality_table.md
+```
