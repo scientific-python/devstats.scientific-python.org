@@ -7,8 +7,10 @@ the issue tracker for open source projects.
 
 ### Most cross-referenced issues
 
-The {glue:text}`num_issues` most cross-referenced issues. Note this includes
-all cross-references including those from other repositories.
+The {glue:text}`num_issues` most cross-referenced issues.
+Note this includes all cross-references including those from other
+repositories.
+See {doc}`content/edge_counting` for details.
 
 ````{admonition} Click to show/hide table
 :class: toggle
@@ -20,7 +22,7 @@ all cross-references including those from other repositories.
 ### Most cross-referenced issues (intra-repository)
 
 The {glue:text}`num_issues` most cross-referenced issues, limited to references
-originating in the same repository.
+originating in the same repository. See {ref}`sec:degree` for details.
 
 ````{admonition} Click to show/hide table
 :class: toggle
@@ -32,6 +34,7 @@ originating in the same repository.
 ### Most *central* issues
 
 A listing of issues sorted by *betweenness centrality*.
+See {ref}`sec:centrality` for details.
 
 ````{admonition} Click to show/hide table
 :class: toggle

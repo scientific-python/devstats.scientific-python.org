@@ -75,6 +75,7 @@ issue_graph.add_nodes_from(nodes)
 issue_graph.add_edges_from(edges)
 ```
 
+(sec:degree)=
 ## Number of cross-references, redux
 
 We can get the number of cross-references for any issue by looking at the
@@ -112,6 +113,7 @@ with open('_generated/degree_table.md', 'w') as of:
 ```
 ````
 
+(sec:centrality)=
 ## Centrality
 
 Now that we have constructed the graph model of the issues, we can use the
