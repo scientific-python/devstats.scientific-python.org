@@ -65,8 +65,8 @@ def get_all_responses(query):
     Helper function to bypass GitHub GraphQL API node limit.
     """
     # Get data from a single response
-    inital_data = send_query(query)
-    data, last_cursor, total_num_issues = parse_single_issue_query(inital_data)
+    initial_data = send_query(query)
+    data, last_cursor, total_num_issues = parse_single_issue_query(initial_data)
     print("Retrieving {} out of {} values...".format(len(data), total_num_issues))
     # Continue requesting issues (with pagination) until all are acquired
     while len(data) < total_num_issues:
