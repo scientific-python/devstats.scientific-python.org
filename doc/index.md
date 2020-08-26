@@ -33,7 +33,7 @@ originating in the same repository. See {ref}`sec:degree` for details.
 
 ### Most *central* issues
 
-A listing of issues sorted by *betweenness centrality*.
+A listing of issues sorted by *betweenness centrality*[^centrality].
 See {ref}`sec:centrality` for details.
 
 ````{admonition} Click to show/hide table
@@ -42,6 +42,8 @@ See {ref}`sec:centrality` for details.
 ```{include} content/_generated/centrality_table.md
 ```
 ````
+
+[^centrality]: https://en.wikipedia.org/wiki/Betweenness_centrality
 
 ## Details
 
