@@ -15,7 +15,7 @@ kernelspec:
 
 ```{code-cell} ipython3
 ---
-:tags: [remove-cell]
+tags: [remove-cell]
 ---
 
 import json
@@ -51,7 +51,7 @@ glue("query_date", str(query_date))
 
 ```{code-cell} ipython3
 ---
-:tags: [hide-input]
+tags: [hide-input]
 ---
 
 newly_created = [
