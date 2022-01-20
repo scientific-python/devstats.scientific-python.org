@@ -23,6 +23,7 @@
             totalCount
             edges {
               node {
+                __typename
                 ... on CrossReferencedEvent {
                   source {
                     ... on Issue {
