@@ -17,8 +17,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'static-issues-summary'
-copyright = '2020, rossbar'
+project = 'devstats.poc'
+copyright = '2022, scientific Python community'
 author = 'rossbar'
 
 
@@ -28,10 +28,8 @@ author = 'rossbar'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'myst_nb',
+    "myst_nb",
 ]
-
-numfig = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

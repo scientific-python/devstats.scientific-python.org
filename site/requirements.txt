@@ -1,7 +1,7 @@
+# For analysis
+matplotlib
 # For the site
-sphinx<3.0
+sphinx
 myst-nb
 ghp-import
 pydata-sphinx-theme
-# For analysis
-networkx
