@@ -1,5 +1,7 @@
 # For analysis
+numpy
 matplotlib
+pandas
 # For the site
 sphinx
 myst-nb

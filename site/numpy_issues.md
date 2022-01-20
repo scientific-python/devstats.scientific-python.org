@@ -25,6 +25,7 @@ import warnings
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from myst_nb import glue
 
 glue = functools.partial(glue, display=False)
@@ -111,3 +112,58 @@ ax.set_ylabel(r"$\frac{issues}{day}$", fontsize=20);
 % TODO: add distribution of labels
 
 ### First responders
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+# Remove issues that are less than a day old for the following analysis
+newly_created_day_old = [
+    iss for iss in newly_created
+    if np.datetime64(datetime.datetime.now()) - np.datetime64(iss["createdAt"])
+    > np.timedelta64(1, "D")
+]
+
+# TODO: really need pandas here
+first_commenters = []
+for iss in newly_created_day_old:
+    for e in iss["timelineItems"]["edges"]:
+        if e["node"]["__typename"] == "IssueComment":
+            first_commenters.append(e["node"]["author"]["login"])
+            break  # Only want the first commenter
+
+# TODO: Update IssueComment query to include:
+#  - whether the commenter is a maintainer
+#  - datetime of comment
+# This will allow analysis of what fraction of issues are addressed by
+# maintainers vs. non-maintainer, and the distribution of how long an issue
+# usually sits before it's at least commented on
+
+glue("new_issues_at_least_1_day_old", len(newly_created_day_old))
+glue(
+    "num_new_issues_responded",
+    f"{len(first_commenters)} ({100 * len(first_commenters) / len(newly_created_day_old)}%)"
+)
+```
+
+Of the {glue:text}`new_issues_at_least_1_day_old` issues that are at least 24
+hours old, {glue:text}`num_new_issues_responded` of them have been commented
+on.
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+first_commenter_tab = pd.DataFrame(
+    {
+        k: v
+        for k, v in zip(
+            ("Contributor", "# of times commented first"),
+            np.unique(first_commenters, return_counts=True),
+        )
+    }
+)
+first_commenter_tab.sort_values(
+    "# of times commented first", ascending=False
+).head(10)
+```
