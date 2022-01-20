@@ -81,9 +81,13 @@ def parse_single_issue_query(data):
     """
     Parse the raw json returned by get_open_numpy_issues_with_crossrefs.
     """
-    total_num_issues = data['data']['repository']['issues']['totalCount']
-    data = data['data']['repository']['issues']['edges']
-    last_cursor = data[-1]['cursor']
+    try:
+        total_num_issues = data['data']['repository']['issues']['totalCount']
+        data = data['data']['repository']['issues']['edges']
+        last_cursor = data[-1]['cursor']
+    except KeyError as e:
+        print(data)
+        raise e
     return data, last_cursor, total_num_issues
 
 def to_ndata(data):
@@ -280,6 +284,6 @@ def cli():
 
 
 if __name__ == "__main__":
-    grabber = GithubIssueGrabber('query_examples/max_issue_data.gql')
+    grabber = GithubIssueGrabber('query_examples/issue_activity_since_date.gql')
     grabber.get()
     grabber.dump("_data/issues.json")
