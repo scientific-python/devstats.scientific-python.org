@@ -5,3 +5,4 @@ sphinx
 myst-nb
 ghp-import
 pydata-sphinx-theme
+jupytext
