@@ -21,12 +21,16 @@ tags: [remove-cell]
 import json
 import functools
 import datetime
+import warnings
 
 import numpy as np
 import matplotlib.pyplot as plt
 from myst_nb import glue
 
 glue = functools.partial(glue, display=False)
+
+warnings.filterwarnings(
+    "ignore", category=DeprecationWarning, message="parsing timezone")
 ```
 
 %TODO improve handling of datetimes (super annoying)
