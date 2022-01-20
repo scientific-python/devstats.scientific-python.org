@@ -53,8 +53,8 @@ def send_query(query, cursor=None):
     # TODO: Unhack this
     # WARNING: This hack relies on specific structure of issues query
     if cursor is not None:
-        cursor_ind = query.find('OPEN') + len('OPEN')
-        query = query[:cursor_ind] + ' after:"{}"'.format(cursor) + query[cursor_ind:]
+        cursor_ind = query.find("issues(") + len("issues(")
+        query = query[:cursor_ind] + f'after:"{cursor}", ' + query[cursor_ind:]
     # Build request payload
     payload = {'query' : ''.join(query.split('\n'))}
     response = requests.post(endpoint, json=payload, headers=headers)
