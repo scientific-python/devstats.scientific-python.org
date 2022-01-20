@@ -30,7 +30,8 @@ from myst_nb import glue
 glue = functools.partial(glue, display=False)
 
 warnings.filterwarnings(
-    "ignore", category=DeprecationWarning, message="parsing timezone")
+    "ignore", category=DeprecationWarning, message="parsing timezone"
+)
 ```
 
 %TODO improve handling of datetimes (super annoying)
@@ -49,7 +50,7 @@ query_date = np.datetime64("2022-01-01 00:00:00")
 with open("../_data/issues.json", "r") as fh:
     issues = [item["node"] for item in json.loads(fh.read())]
 
-glue("query_date", str(query_date))
+glue("query_date", str(query_date.astype("M8[D]")))
 ```
 
 ### New issues
@@ -106,3 +107,7 @@ ax.set_title(
 ax.set_xlabel("Issue lifetime (days)", fontsize=20)
 ax.set_ylabel(r"$\frac{issues}{day}$", fontsize=20);
 ```
+
+% TODO: add distribution of labels
+
+### First responders
