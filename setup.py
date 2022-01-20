@@ -29,6 +29,6 @@ setup(
     python_requires=">=3.6",    # For f-strings
     install_requires=_get_reqs("requirements.txt"),
     extras_require={
-        "docs" : _get_reqs("doc/requirements.txt"),
+        "docs" : _get_reqs("site/requirements.txt"),
     }
 )
