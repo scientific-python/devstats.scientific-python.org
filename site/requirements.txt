@@ -2,6 +2,7 @@
 numpy
 matplotlib
 pandas
+bokeh
 # For the site
 sphinx
 myst-nb

@@ -34,6 +34,12 @@ warnings.filterwarnings(
     "ignore", category=DeprecationWarning, message="parsing timezone"
 )
 ```
+```{code-cell} ipython3
+# For interactive plots
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.models import TeX
+output_notebook()
+```
 
 %TODO improve handling of datetimes (super annoying)
 
@@ -98,15 +104,19 @@ is {glue:text}`new_issue_avg_lifetime`.
 ---
 tags: [hide-input]
 ---
-fig, ax = plt.subplots(figsize=(16, 12))
-ax.hist(new_issue_lifetime.astype("m8[D]").astype(int), bins=np.arange(30))
-ax.set_title(
+title = (
     f"Lifetime of issues created and closed in the last "
-    f"{(np.datetime64(datetime.datetime.now()) - query_date).astype('m8[D]')}",
-    fontsize=24
+    f"{(np.datetime64(datetime.datetime.now()) - query_date).astype('m8[D]')}"
 )
-ax.set_xlabel("Issue lifetime (days)", fontsize=20)
-ax.set_ylabel(r"$\frac{issues}{day}$", fontsize=20);
+h, bedges = np.histogram(
+    new_issue_lifetime.astype("m8[D]").astype(int), bins=np.arange(30)
+)
+
+p = figure(width=670, height=400, title=title, tooltips=[("value", "@top")])
+p.quad(top=h, bottom=0, left=bedges[:-1], right=bedges[1:])
+p.xaxis.axis_label = "Issue lifetime (days)"
+p.yaxis.axis_label = TeX(r"\frac{issues}{day}")
+show(p)
 ```
 
 % TODO: add distribution of labels
