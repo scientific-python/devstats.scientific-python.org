@@ -30,6 +30,9 @@ from myst_nb import glue
 
 glue = functools.partial(glue, display=False)
 
+def percent_val(val, denom):
+    return f"{val} ({100 * val / denom:1.0f}%)"
+
 warnings.filterwarnings(
     "ignore", category=DeprecationWarning, message="parsing timezone"
 )
@@ -82,10 +85,7 @@ new_issue_lifetime = np.array(
 ).astype("m8[h]")  # in hours
 
 glue("num_new_issues", len(newly_created))
-glue(
-    "num_new_issues_closed",
-    f"{len(new_issues_closed)} ({100 * len(new_issues_closed) / len(newly_created)}%)"
-)
+glue("num_new_issues_closed", percent_val(len(new_issues_closed), len(newly_created)))
 glue("new_issue_avg_lifetime", f"{np.mean(new_issue_lifetime)}")
 ```
 
@@ -157,7 +157,7 @@ for iss in newly_created_day_old:
 glue("new_issues_at_least_1_day_old", len(newly_created_day_old))
 glue(
     "num_new_issues_responded",
-    f"{len(first_commenters)} ({100 * len(first_commenters) / len(newly_created_day_old)}%)"
+    percent_val(len(first_commenters), len(newly_created_day_old))
 )
 ```
 
