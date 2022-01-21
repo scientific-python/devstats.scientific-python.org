@@ -1,6 +1,6 @@
 {
   repository(owner: "_REPO_OWNER_", name: "_REPO_NAME_") {
-    issues(first: 100, filterBy: {since: "2022-01-01T00:00:00Z"}) {
+    issues(first: 100, filterBy: {since: "2020-01-01T00:00:00Z"}) {
       totalCount
       edges {
         cursor

@@ -51,7 +51,7 @@ A snapshot of the development on the NumPy project in the past month
 %than specified manually
 
 ```{code-cell} ipython3
-query_date = np.datetime64("2022-01-01 00:00:00")
+query_date = np.datetime64("2020-01-01 00:00:00")
 
 # Load data
 with open("../_data/issues.json", "r") as fh:
@@ -139,7 +139,12 @@ first_commenters = []
 for iss in newly_created_day_old:
     for e in iss["timelineItems"]["edges"]:
         if e["node"]["__typename"] == "IssueComment":
-            first_commenters.append(e["node"]["author"]["login"])
+            try:
+                user = e["node"]["author"]["login"]
+            except TypeError as err:
+                # This can happen e.g. when a user deletes their GH acct
+                user = "UNKNOWN"
+            first_commenters.append(user)
             break  # Only want the first commenter
 
 # TODO: Update IssueComment query to include:
