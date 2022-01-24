@@ -261,6 +261,9 @@ with open("../_data/prs.json", "r") as fh:
 
 A look at merged PRs over time.
 
+% TODO: This data includes backports - in the future, should limit to PRs merged
+% into main only (query needs update).
+
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
