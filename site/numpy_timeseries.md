@@ -337,11 +337,11 @@ open_prs = [pr for pr in prs if pr["state"] == "OPEN"]
 
 # The GraphQL query does not reliably return information on PR mergeability.
 # Warn if there are problems
-if any([pr["mergeable"] == "UNKOWN" for pr in open_prs]):
+if any([pr["mergeable"] == "UNKNOWN" for pr in open_prs]):
     warnings.warn(
         (
             "\n\nThe data contains PRs with unknown merge status.\n"
-            "Please re-download the data to get accurate info about PR mergeability.",
+            "Please re-download the data to get accurate info about PR mergeability."
         ),
         UserWarning,
         stacklevel=2,
@@ -362,8 +362,5 @@ ax.legend()
 ax.set_xlabel("Date of PR creation")
 ax.set_ylabel(r"# of conflicting PRs")
 fig.autofmt_xdate()
-fig.tight_layout()
-```
-
-
+fig.tight_layout();
 ```
