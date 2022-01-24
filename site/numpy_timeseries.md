@@ -258,21 +258,23 @@ tags: [hide-input]
 
 with open("../_data/prs.json", "r") as fh:
     prs = [item["node"] for item in json.loads(fh.read())]
+
+# Only look at PRs to the main development branch - ignore backports, gh-pages,
+# etc.
+default_branches = {"main", "master"}  # Account for default branch update
+prs = [pr for pr in prs if pr["baseRefName"] in default_branches]
 ```
 
 ### Merged PRs over time
 
 A look at merged PRs over time.
 
-% TODO: This data includes backports - in the future, should limit to PRs merged
-% into main only (query needs update).
-
 ```{code-cell} ipython3
 ---
 tags: [hide-input]
 ---
-# All contributors
 
+# All contributors
 merged_prs = [pr for pr in prs if pr['state'] == 'MERGED']
 merge_dates = np.array([pr['mergedAt'] for pr in merged_prs], dtype=np.datetime64)
 binsize = np.timedelta64(30, "D")
@@ -364,3 +366,12 @@ ax.set_ylabel(r"# of conflicting PRs")
 fig.autofmt_xdate()
 fig.tight_layout();
 ```
+
+### Number of PR participants
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+
+
