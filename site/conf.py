@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'devstats.poc'
+project = 'devstats'
 copyright = '2022, Scientific Python community'
 author = 'rossbar'
 
