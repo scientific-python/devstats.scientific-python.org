@@ -256,8 +256,10 @@ tags: [hide-input]
 ---
 
 with open("../_data/prs.json", "r") as fh:
-    data = json.loads(fh.read())
+    prs = [item["node"] for item in json.loads(fh.read())]
 ```
+
+### Merged PRs over time
 
 A look at merged PRs over time.
 
@@ -270,8 +272,8 @@ tags: [hide-input]
 ---
 # All contributors
 
-merged_prs = [d for d in data if d['node']['state'] == 'MERGED']
-merge_dates = np.array([r['node']['mergedAt'] for r in merged_prs], dtype=np.datetime64)
+merged_prs = [pr for pr in prs if pr['state'] == 'MERGED']
+merge_dates = np.array([pr['mergedAt'] for pr in merged_prs], dtype=np.datetime64)
 binsize = np.timedelta64(30, "D")
 date_bins = np.arange(merge_dates[0], merge_dates[-1], binsize)
 h_all, bedges = np.histogram(merge_dates, date_bins)
@@ -283,7 +285,7 @@ first_time_contributor = []
 prev_contrib = set()
 for record in merged_prs:
     try:
-        author = record['node']['author']['login']
+        author = record['author']['login']
     except TypeError:  # Author no longer has GitHub account
         first_time_contributor.append(None)
         continue
