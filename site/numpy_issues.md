@@ -86,15 +86,15 @@ new_issue_lifetime = np.array(
 
 glue("num_new_issues", len(newly_created))
 glue("num_new_issues_closed", percent_val(len(new_issues_closed), len(newly_created)))
-glue("new_issue_avg_lifetime", f"{np.mean(new_issue_lifetime)}")
+glue("new_issue_median_lifetime", f"{np.median(new_issue_lifetime)}")
 ```
 
 {glue:text}`num_new_issues` new issues have been opened since
 {glue:text}`query_date`, of which {glue:text}`num_new_issues_closed` have been
 closed.
 
-The average lifetime of new issues that were created and closed in this period
-is {glue:text}`new_issue_avg_lifetime`.
+The median lifetime of new issues that were created and closed in this period
+is {glue:text}`new_issue_median_lifetime`.
 
 % TODO: replace with bokeh or some other live-plot
 % TODO: for any remaining static/mpl plots, set default params for things
@@ -112,10 +112,15 @@ h, bedges = np.histogram(
     new_issue_lifetime.astype("m8[D]").astype(int), bins=np.arange(30)
 )
 
-p = figure(width=670, height=400, title=title, tooltips=[("value", "@top")])
+p = figure(
+    width=670,
+    height=400,
+    title=title,
+    tooltips=[("lifetime", "@right days"), (r"# issues", "@top")],
+)
 p.quad(top=h, bottom=0, left=bedges[:-1], right=bedges[1:])
 p.xaxis.axis_label = "Issue lifetime (days)"
-p.yaxis.axis_label = TeX(r"\frac{issues}{day}")
+p.yaxis.axis_label = "# Issues"
 show(p)
 ```
 
