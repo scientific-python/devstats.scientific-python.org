@@ -9,5 +9,5 @@ ecosystem.
 maxdepth: 1
 ---
 
-numpy_issues
+numpy_timeseries
 ```

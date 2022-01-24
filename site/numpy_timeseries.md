@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# NumPy Monthly Report
+# NumPy Report
 
 ```{code-cell} ipython3
 ---
@@ -46,7 +46,7 @@ output_notebook()
 
 %TODO improve handling of datetimes (super annoying)
 
-A snapshot of the development on the NumPy project in the past month
+A snapshot of the development on the NumPy project since {glue:text}`query_date`
 
 ## Issues
 
