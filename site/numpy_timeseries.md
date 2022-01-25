@@ -260,11 +260,28 @@ tags: [hide-input]
 with open("../_data/prs.json", "r") as fh:
     prs = [item["node"] for item in json.loads(fh.read())]
 
+### Filters
+
 # Only look at PRs to the main development branch - ignore backports, gh-pages,
 # etc.
 default_branches = {"main", "master"}  # Account for default branch update
 prs = [pr for pr in prs if pr["baseRefName"] in default_branches]
+
+# Drop data where PR author is unknown (e.g. github account no longer exists)
+prs = [pr for pr in prs if pr["author"]]  # Failed author query results in None
+
+# Filter out PRs by bots
+bot_filter = {"dependabot-preview"}
+prs = [pr for pr in prs if pr["author"]["login"] not in bot_filter]
 ```
+
+The following filters are applied to the PRs for the following analysis:
+ - Only PRs to the default development branch (e.g ``main``)[^master_to_main]
+   are considered.
+ - Only PRs from users with *active* GitHub accounts are considered. For example,
+   if a user opened a Pull Request in 2016, but then deleted their GitHub account
+   in 2017, then this PR is excluded from the analysis.
+ - PRs opened by dependabot are excluded.
 
 ### Merged PRs over time
 
@@ -407,9 +424,6 @@ PRs from users who have contributed to the project once (to-date).
 tags: [hide-input]
 ---
 
-# Drop data where PR author is unknown
-merged_prs = [pr for pr in merged_prs if pr["author"]]
-
 # Remap PRs by author
 contributions_by_author = defaultdict(list)
 for pr in merged_prs:
@@ -498,4 +512,5 @@ ax.legend();
 %  - Augmented pony factor (only consider contributors active in a time window)
 %  - pony factor over time, e.g yearly bins
 
+[^master_to_main]: i.e. ``master`` or ``main``.
 [^only_active]: This only includes PRs from users with an active GitHub account.
