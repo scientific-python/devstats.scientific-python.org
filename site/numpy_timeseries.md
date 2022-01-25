@@ -452,5 +452,50 @@ p.yaxis.axis_label = "# of unique contributors with N PRs merged"
 show(p)
 ```
 
+#### Pony factor
+
+Another way to look at these data is in terms of the
+[pony factor](https://ke4qqq.wordpress.com/2015/02/08/pony-factor-math/),
+described as:
+
+> The minimum number of contributors whose total contribution constitutes a
+> majority of the contributions.
+
+For this analysis, we will consider merged PRs as the metric for "contribution":
+
+% TODO: pandas-ify to improve sorting
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+# Sort by number of merged PRs in descending order
+num_merged_prs_per_author.sort()
+num_merged_prs_per_author = num_merged_prs_per_author[::-1]
+
+num_merged_prs = num_merged_prs_per_author.sum()
+pf_thresh = 0.5
+pony_factor = np.searchsorted(
+    np.cumsum(num_merged_prs_per_author), num_merged_prs * pf_thresh
+) + 1
+
+fig, ax = plt.subplots()
+ax.plot(np.cumsum(num_merged_prs_per_author), ".")
+ax.set_title(f"Pony factor: {pony_factor}")
+ax.set_xlabel("# unique contributors")
+ax.set_ylabel("Cumulative sum of merged PRs / contributor")
+ax.hlines(
+    xmin=0,
+    xmax=len(contributions_by_author),
+    y=num_merged_prs * pf_thresh,
+    color="tab:green",
+    label=f"Pony factor threshold = {100 * pf_thresh:1.0f}%",
+)
+ax.legend();
+```
+
+% TODO: Add:
+%  - Augmented pony factor (only consider contributors active in a time window)
+%  - pony factor over time, e.g yearly bins
 
 [^only_active]: This only includes PRs from users with an active GitHub account.
