@@ -495,8 +495,9 @@ pony_factor = np.searchsorted(
 
 fig, ax = plt.subplots()
 ax.plot(np.cumsum(num_merged_prs_per_author), ".")
-ax.set_title(f"Pony factor: {pony_factor}")
+ax.set_title(f"How the pony factor is calculated")
 ax.set_xlabel("# unique contributors")
+ax.set_xscale("log")
 ax.set_ylabel("Cumulative sum of merged PRs / contributor")
 ax.hlines(
     xmin=0,
