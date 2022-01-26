@@ -475,7 +475,9 @@ described as:
 > The minimum number of contributors whose total contribution constitutes a
 > majority of the contributions.
 
-For this analysis, we will consider merged PRs as the metric for "contribution":
+For this analysis, we will consider merged PRs as the metric for contribution.
+Considering all merged PRs over the lifetime of the project, the pony factor
+is: {glue:text}`pony_factor`.
 
 % TODO: pandas-ify to improve sorting
 
@@ -491,7 +493,7 @@ num_merged_prs = num_merged_prs_per_author.sum()
 pf_thresh = 0.5
 pony_factor = np.searchsorted(
     np.cumsum(num_merged_prs_per_author), num_merged_prs * pf_thresh
-) + 1
+)
 
 fig, ax = plt.subplots()
 ax.plot(np.cumsum(num_merged_prs_per_author), ".")
@@ -507,6 +509,8 @@ ax.hlines(
     label=f"Pony factor threshold = {100 * pf_thresh:1.0f}%",
 )
 ax.legend();
+
+glue("pony_factor", pony_factor)
 ```
 
 % TODO: Add:
