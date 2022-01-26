@@ -23,6 +23,7 @@ import functools
 import datetime
 from dateutil.parser import isoparse
 import warnings
+from collections import defaultdict
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -47,7 +48,7 @@ output_notebook()
 
 %TODO improve handling of datetimes (super annoying)
 
-A snapshot of the development on the NumPy project since {glue:text}`query_date`
+A snapshot of the development on the NumPy project.
 
 ## Issues
 
@@ -259,11 +260,28 @@ tags: [hide-input]
 with open("../_data/prs.json", "r") as fh:
     prs = [item["node"] for item in json.loads(fh.read())]
 
+### Filters
+
 # Only look at PRs to the main development branch - ignore backports, gh-pages,
 # etc.
 default_branches = {"main", "master"}  # Account for default branch update
 prs = [pr for pr in prs if pr["baseRefName"] in default_branches]
+
+# Drop data where PR author is unknown (e.g. github account no longer exists)
+prs = [pr for pr in prs if pr["author"]]  # Failed author query results in None
+
+# Filter out PRs by bots
+bot_filter = {"dependabot-preview"}
+prs = [pr for pr in prs if pr["author"]["login"] not in bot_filter]
 ```
+
+The following filters are applied to the PRs for the following analysis:
+ - Only PRs to the default development branch (e.g ``main``)[^master_to_main]
+   are considered.
+ - Only PRs from users with *active* GitHub accounts are considered. For example,
+   if a user opened a Pull Request in 2016, but then deleted their GitHub account
+   in 2017, then this PR is excluded from the analysis.
+ - PRs opened by dependabot are excluded.
 
 ### Merged PRs over time
 
@@ -392,3 +410,112 @@ p.yaxis.axis_label = "PR lifetime (hours)"
 p.scatter(x=num_participants, y=lifetimes.astype(int), size=9, alpha=0.4)
 show(p)
 ```
+
+### Where contributions come from
+
+There have been a total of {glue:text}`num_merged_prs_with_known_authors`
+merged PRs[^only_active] submitted by {glue:text}`num_unique_authors_of_merged_prs`
+unique authors. {glue:text}`num_flyby` of these are "fly-by" PRs, i.e.
+PRs from users who have contributed to the project once (to-date).
+
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+
+# Remap PRs by author
+contributions_by_author = defaultdict(list)
+for pr in merged_prs:
+    author = pr["author"]["login"]
+    contributions_by_author[author].append(pr)
+
+num_merged_prs_per_author = np.array(
+    [len(prs) for prs in contributions_by_author.values()]
+)
+
+num_flybys = np.sum(num_merged_prs_per_author == 1)
+
+glue("num_merged_prs_with_known_authors", len(merged_prs))
+glue("num_unique_authors_of_merged_prs", len(contributions_by_author))
+glue("num_flyby", percent_val(num_flybys, len(num_merged_prs_per_author)))
+```
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+
+title = "Distribution of number of merged PRs per contributor"
+
+x = ["1", "2", "3", "4", "5", "6 - 10", "10 - 20", "20 - 50", "> 50"]
+bedges = np.array([0, 1, 2, 3, 4, 5, 10, 20, 50, sum(num_merged_prs_per_author)]) + 0.5
+y, _ = np.histogram(num_merged_prs_per_author, bins=bedges)
+
+p = figure(
+    x_range=x,
+    y_range=(0, 1.05 * y.max()),
+    width=670,
+    height=400,
+    title=title,
+    tooltips=[(r"# PRs merged", "@x"), ("# contributors", f"@top")],
+)
+p.vbar(x=x, top=y, width=0.8)
+p.xaxis.axis_label = "# Merged PRs per user"
+p.yaxis.axis_label = "# of unique contributors with N PRs merged"
+show(p)
+```
+
+#### Pony factor
+
+Another way to look at these data is in terms of the
+[pony factor](https://ke4qqq.wordpress.com/2015/02/08/pony-factor-math/),
+described as:
+
+> The minimum number of contributors whose total contribution constitutes a
+> majority of the contributions.
+
+For this analysis, we will consider merged PRs as the metric for contribution.
+Considering all merged PRs over the lifetime of the project, the pony factor
+is: {glue:text}`pony_factor`.
+
+% TODO: pandas-ify to improve sorting
+
+```{code-cell} ipython3
+---
+tags: [hide-input]
+---
+# Sort by number of merged PRs in descending order
+num_merged_prs_per_author.sort()
+num_merged_prs_per_author = num_merged_prs_per_author[::-1]
+
+num_merged_prs = num_merged_prs_per_author.sum()
+pf_thresh = 0.5
+pony_factor = np.searchsorted(
+    np.cumsum(num_merged_prs_per_author), num_merged_prs * pf_thresh
+)
+
+fig, ax = plt.subplots()
+ax.plot(np.cumsum(num_merged_prs_per_author), ".")
+ax.set_title(f"How the pony factor is calculated")
+ax.set_xlabel("# unique contributors")
+ax.set_xscale("log")
+ax.set_ylabel("Cumulative sum of merged PRs / contributor")
+ax.hlines(
+    xmin=0,
+    xmax=len(contributions_by_author),
+    y=num_merged_prs * pf_thresh,
+    color="tab:green",
+    label=f"Pony factor threshold = {100 * pf_thresh:1.0f}%",
+)
+ax.legend();
+
+glue("pony_factor", pony_factor)
+```
+
+% TODO: Add:
+%  - Augmented pony factor (only consider contributors active in a time window)
+%  - pony factor over time, e.g yearly bins
+
+[^master_to_main]: i.e. ``master`` or ``main``.
+[^only_active]: This only includes PRs from users with an active GitHub account.
