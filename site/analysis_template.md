@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# `{{ project }}` report
+# `{{ project }}`
 
 ```{code-cell} ipython3
 ---
@@ -59,10 +59,10 @@ A snapshot of the development on the {{ project }} project.
 query_date = np.datetime64("2020-01-01 00:00:00")
 
 # Load data
-with open("../_data/{{ project }}_issues.json", "r") as fh:
+with open("../../_data/{{ project }}_issues.json", "r") as fh:
     issues = [item["node"] for item in json.loads(fh.read())]
 
-glue("query_date", str(query_date.astype("M8[D]")))
+glue("{{ project }}_query_date", str(query_date.astype("M8[D]")))
 ```
 
 ### New issues
@@ -86,17 +86,17 @@ new_issue_lifetime = np.array(
     ],
 ).astype("m8[h]")  # in hours
 
-glue("num_new_issues", len(newly_created))
-glue("num_new_issues_closed", percent_val(len(new_issues_closed), len(newly_created)))
-glue("new_issue_median_lifetime", f"{np.median(new_issue_lifetime)}")
+glue("{{ project }}_num_new_issues", len(newly_created))
+glue("{{ project }}_num_new_issues_closed", percent_val(len(new_issues_closed), len(newly_created)))
+glue("{{ project }}_new_issue_median_lifetime", f"{np.median(new_issue_lifetime)}")
 ```
 
-{glue:text}`num_new_issues` new issues have been opened since
-{glue:text}`query_date`, of which {glue:text}`num_new_issues_closed` have been
+{glue:text}`{{ project }}_num_new_issues` new issues have been opened since
+{glue:text}`{{ project }}_query_date`, of which {glue:text}`{{ project }}_num_new_issues_closed` have been
 closed.
 
 The median lifetime of new issues that were created and closed in this period
-is {glue:text}`new_issue_median_lifetime`.
+is {glue:text}`{{ project }}_new_issue_median_lifetime`.
 
 % TODO: replace with bokeh or some other live-plot
 % TODO: for any remaining static/mpl plots, set default params for things
@@ -185,19 +185,19 @@ num_issues_commented_by_cutoff = np.array(
 # usually sits before it's at least commented on
 
 glue(
-    "num_new_issues_responded",
+    "{{ project }}_num_new_issues_responded",
     percent_val(len(commented_issues), len(newly_created_day_old))
 )
 
-glue("new_issues_at_least_1_day_old", len(newly_created_day_old))
-glue("median_response_time", f"{median_time_til_first_response:1.0f}")
+glue("{{ project }}_new_issues_at_least_1_day_old", len(newly_created_day_old))
+glue("{{ project }}_median_response_time", f"{median_time_til_first_response:1.0f}")
 ```
 
-Of the {glue:text}`new_issues_at_least_1_day_old` issues that are at least 24
-hours old, {glue:text}`num_new_issues_responded` of them have been commented
+Of the {glue:text}`{{ project }}_new_issues_at_least_1_day_old` issues that are at least 24
+hours old, {glue:text}`{{ project }}_num_new_issues_responded` of them have been commented
 on.
 The median time until an issue is first responded to is
-{glue:text}`median_response_time` hours.
+{glue:text}`{{ project }}_median_response_time` hours.
 
 ```{code-cell} ipython3
 ---
@@ -257,7 +257,7 @@ first_commenter_tab.sort_values(
 tags: [hide-input]
 ---
 
-with open("../_data/{{ project }}_prs.json", "r") as fh:
+with open("../../_data/{{ project }}_prs.json", "r") as fh:
     prs = [item["node"] for item in json.loads(fh.read())]
 
 ### Filters
@@ -413,9 +413,9 @@ show(p)
 
 ### Where contributions come from
 
-There have been a total of {glue:text}`num_merged_prs_with_known_authors`
-merged PRs[^only_active] submitted by {glue:text}`num_unique_authors_of_merged_prs`
-unique authors. {glue:text}`num_flyby` of these are "fly-by" PRs, i.e.
+There have been a total of {glue:text}`{{ project }}_num_merged_prs_with_known_authors`
+merged PRs[^only_active] submitted by {glue:text}`{{ project }}_num_unique_authors_of_merged_prs`
+unique authors. {glue:text}`{{ project }}_num_flyby` of these are "fly-by" PRs, i.e.
 PRs from users who have contributed to the project once (to-date).
 
 
@@ -436,9 +436,9 @@ num_merged_prs_per_author = np.array(
 
 num_flybys = np.sum(num_merged_prs_per_author == 1)
 
-glue("num_merged_prs_with_known_authors", len(merged_prs))
-glue("num_unique_authors_of_merged_prs", len(contributions_by_author))
-glue("num_flyby", percent_val(num_flybys, len(num_merged_prs_per_author)))
+glue("{{ project }}_num_merged_prs_with_known_authors", len(merged_prs))
+glue("{{ project }}_num_unique_authors_of_merged_prs", len(contributions_by_author))
+glue("{{ project }}_num_flyby", percent_val(num_flybys, len(num_merged_prs_per_author)))
 ```
 
 ```{code-cell} ipython3
@@ -477,7 +477,7 @@ described as:
 
 For this analysis, we will consider merged PRs as the metric for contribution.
 Considering all merged PRs over the lifetime of the project, the pony factor
-is: {glue:text}`pony_factor`.
+is: {glue:text}`{{ project }}_pony_factor`.
 
 % TODO: pandas-ify to improve sorting
 
@@ -510,7 +510,7 @@ ax.hlines(
 )
 ax.legend();
 
-glue("pony_factor", pony_factor)
+glue("{{ project }}_pony_factor", pony_factor)
 ```
 
 % TODO: Add:

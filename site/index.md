@@ -9,5 +9,7 @@ ecosystem.
 maxdepth: 1
 ---
 
-numpy_timeseries
+_generated/numpy
+_generated/scipy
+_generated/networkx
 ```
