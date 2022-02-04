@@ -43,59 +43,94 @@ def load_query_from_file(fname, repo_owner="numpy", repo_name="numpy"):
     return query
 
 
-def send_query(query, cursor=None):
+def send_query(query, query_type, cursor=None):
     """
-    Helper function to use the graphql query example in `query_examples`
-    to retrieve open numpy issues and all cross references
+    Send a GraphQL query via requests.post
+
+    No validation is done on the query before sending. GitHub GraphQL is
+    supported with the `cursor` argument.
+
+    Parameters
+    ----------
+    query : str
+        The GraphQL query to be sent
+    query_type : {"issues", "pullRequests"}
+        The object being queried according to the GitHub GraphQL schema.
+        Currently only issues and pullRequests are supported
+    cursor : str, optional
+        If given, then the cursor is injected into the query to support
+        GitHub's GraphQL pagination.
+
+    Returns
+    -------
+    dict
+        The result of the query (json) parsed by `json.loads`
+
+    Notes
+    -----
+    This is intended mostly for internal use within `get_all_responses`.
     """
-    # Modifications to request template
-    # TODO: Unhack this
-    # WARNING: This hack relies on specific structure of issues query
+    # TODO: Expand this, either by parsing the query type from the query
+    # directly or manually adding more query_types to the set
+    if query_type not in {"issues", "pullRequests"}:
+        raise ValueError(
+            "Only 'issues' and 'pullRequests' queries are currently supported"
+        )
+    # TODO: Generalize this
+    # WARNING: The cursor injection depends on the specific structure of the
+    # query, this is the main reason why query types are limited to issues/PRs
     if cursor is not None:
-        cursor_ind = query.find("issues(") + len("issues(")
+        cursor_insertion_key = query_type + "("
+        cursor_ind = query.find(cursor_insertion_key) + len(cursor_insertion_key)
         query = query[:cursor_ind] + f'after:"{cursor}", ' + query[cursor_ind:]
     # Build request payload
     payload = {'query' : ''.join(query.split('\n'))}
     response = requests.post(endpoint, json=payload, headers=headers)
     return json.loads(response.content)
 
-def get_all_responses(query):
+def get_all_responses(query, query_type):
     """
     Helper function to bypass GitHub GraphQL API node limit.
     """
     # Get data from a single response
-    initial_data = send_query(query)
-    data, last_cursor, total_num_issues = parse_single_issue_query(initial_data)
-    print("Retrieving {} out of {} values...".format(len(data), total_num_issues))
-    # Continue requesting issues (with pagination) until all are acquired
-    while len(data) < total_num_issues:
-        rdata = send_query(query, cursor=last_cursor)
-        pdata, last_cursor, _ = parse_single_issue_query(rdata)
+    initial_data = send_query(query, query_type)
+    data, last_cursor, total_count = parse_single_query(initial_data, query_type)
+    print(f"Retrieving {len(data)} out of {total_count} values...")
+    # Continue requesting data (with pagination) until all are acquired
+    while len(data) < total_count:
+        rdata = send_query(query, query_type, cursor=last_cursor)
+        pdata, last_cursor, _ = parse_single_query(rdata, query_type)
         data.extend(pdata)
-        print("Retrieving {} out of {} values...".format(len(data), total_num_issues))
+        print(f"Retrieving {len(data)} out of {total_count} values...")
     print("Done.")
     return data
 
-def parse_single_issue_query(data):
+def parse_single_query(data, query_type):
     """
-    Parse the raw json returned by get_open_numpy_issues_with_crossrefs.
+    Parse the data returned by `send_query`
+
+    .. warning::
+       
+       Like `send_query`, the logic here depends on the specific structure
+       of the query (e.g. it must be an issue or PR query, and must have a
+       total count).
     """
     try:
-        total_num_issues = data['data']['repository']['issues']['totalCount']
-        data = data['data']['repository']['issues']['edges']
+        total_count = data['data']['repository'][query_type]['totalCount']
+        data = data['data']['repository'][query_type]['edges']
         last_cursor = data[-1]['cursor']
     except KeyError as e:
         print(data)
         raise e
-    return data, last_cursor, total_num_issues
+    return data, last_cursor, total_count
 
 
-class GithubIssueGrabber:
+class GithubGrabber:
     """
     Pull down data via the GitHub APIv.4 given a valid GraphQL query.
     """
 
-    def __init__(self, query_fname, repo_owner="numpy", repo_name="numpy"):
+    def __init__(self, query_fname, query_type, repo_owner="numpy", repo_name="numpy"):
         """
         Create an object to send/recv queries related to the issue tracker
         for the given repository via the GitHub API v.4.
@@ -108,12 +143,16 @@ class GithubIssueGrabber:
         query_fname : str
             Path to a valid GraphQL query conforming to the GitHub GraphQL
             schema
+        query_type : {"issues", "pullRequests"}
+            Type of object that is being queried according to the GitHub GraphQL
+            schema. Currently only "issues" and "pullRequests" are supported.
         repo_owner : str
             Repository owner. Default is "numpy"
         repo_name : str
             Repository name. Default is "numpy"
         """
         self.query_fname = query_fname
+        self.query_type = query_type  # TODO: Parse this directly from query
         self.repo_owner = repo_owner
         self.repo_name = repo_name
         self.raw_data = None
@@ -128,7 +167,7 @@ class GithubIssueGrabber:
         """
         Get JSON-formatted raw data from the query.
         """
-        self.raw_data = get_all_responses(self.query)
+        self.raw_data = get_all_responses(self.query, self.query_type)
 
     def dump(self, outfile):
         """
@@ -142,6 +181,20 @@ class GithubIssueGrabber:
 
 
 if __name__ == "__main__":
-    grabber = GithubIssueGrabber('query_examples/issue_activity_since_date.gql')
-    grabber.get()
-    grabber.dump("_data/issues.json")
+    repo = "networkx"
+    issues = GithubGrabber(
+        'query_examples/issue_activity_since_date.gql',
+        'issues',
+        repo_owner=repo,
+        repo_name=repo,
+    )
+    issues.get()
+    issues.dump(f"_data/{repo}_issues.json")
+    prs = GithubGrabber(
+        'query_examples/pr_data_query.gql',
+        'pullRequests',
+        repo_owner=repo,
+        repo_name=repo,
+    )
+    prs.get()
+    prs.dump(f"_data/{repo}_prs.json")
