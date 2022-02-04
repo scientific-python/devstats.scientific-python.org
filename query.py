@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import click
 
 token = os.environ["GRAPH_API_KEY"]
 endpoint = r"https://api.github.com/graphql"
@@ -180,21 +181,29 @@ class GithubGrabber:
             json.dump(self.raw_data, outf)
 
 
-if __name__ == "__main__":
-    repo = "networkx"
+@click.command()
+@click.argument('repo_owner')
+@click.argument('repo_name')
+def main(repo_owner, repo_name):
+    """Download and save issue and pr data for `repo_owner`/`repo_name`."""
     issues = GithubGrabber(
         'query_examples/issue_activity_since_date.gql',
         'issues',
-        repo_owner=repo,
-        repo_name=repo,
+        repo_owner=repo_owner,
+        repo_name=repo_name,
     )
     issues.get()
-    issues.dump(f"_data/{repo}_issues.json")
+    issues.dump(f"_data/{repo_name}_issues.json")
     prs = GithubGrabber(
         'query_examples/pr_data_query.gql',
         'pullRequests',
-        repo_owner=repo,
-        repo_name=repo,
+        repo_owner=repo_owner,
+        repo_name=repo_name,
     )
     prs.get()
-    prs.dump(f"_data/{repo}_prs.json")
+    prs.dump(f"_data/{repo_name}_prs.json")
+
+
+
+if __name__ == "__main__":
+    main()
