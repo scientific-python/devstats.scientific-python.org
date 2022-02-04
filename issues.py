@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import click
 
 token = os.environ["GRAPH_API_KEY"]
 endpoint = r"https://api.github.com/graphql"
@@ -276,11 +275,6 @@ class GithubIssueGrabber:
 
         with open(outfile, "w") as outf:
             json.dump(self.raw_data, outf)
-
-
-@click.command()
-def cli():
-    pass
 
 
 if __name__ == "__main__":
