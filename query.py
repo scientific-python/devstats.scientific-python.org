@@ -186,6 +186,10 @@ class GithubGrabber:
 @click.argument('repo_name')
 def main(repo_owner, repo_name):
     """Download and save issue and pr data for `repo_owner`/`repo_name`."""
+    # Make sure this works even if the submodule has not been initialized
+    import os
+    os.makedirs("devstats-data", exist_ok=True)
+    # Download issue data
     issues = GithubGrabber(
         'query_examples/issue_activity_since_date.gql',
         'issues',
@@ -193,7 +197,8 @@ def main(repo_owner, repo_name):
         repo_name=repo_name,
     )
     issues.get()
-    issues.dump(f"_data/{repo_name}_issues.json")
+    issues.dump(f"devstats-data/{repo_name}_issues.json")
+    # Download PR data
     prs = GithubGrabber(
         'query_examples/pr_data_query.gql',
         'pullRequests',
@@ -201,7 +206,7 @@ def main(repo_owner, repo_name):
         repo_name=repo_name,
     )
     prs.get()
-    prs.dump(f"_data/{repo_name}_prs.json")
+    prs.dump(f"devstats-data/{repo_name}_prs.json")
 
 
 
