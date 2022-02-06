@@ -18,10 +18,22 @@ _generated/numpy.md: analysis_template.md
 _generated/scipy.md: analysis_template.md
 	python tools/generate_from_template.py scipy
 
+_generated/matplotlib.md: analysis_template.md
+	python tools/generate_from_template.py matplotlib
+
+_generated/pandas.md: analysis_template.md
+	python tools/generate_from_template.py pandas
+
+_generated/scikit-learn.md: analysis_template.md
+	python tools/generate_from_template.py scikit-learn
+
+_generated/scikit-image.md: analysis_template.md
+	python tools/generate_from_template.py scikit-image
+
 _generated/networkx.md: analysis_template.md
 	python tools/generate_from_template.py networkx
 
-html : _generated/numpy.md _generated/scipy.md _generated/networkx.md
+html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md
 	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 
 clean: 

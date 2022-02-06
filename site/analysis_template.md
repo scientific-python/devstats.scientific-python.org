@@ -59,7 +59,7 @@ A snapshot of the development on the {{ project }} project.
 query_date = np.datetime64("2020-01-01 00:00:00")
 
 # Load data
-with open("../../_data/{{ project }}_issues.json", "r") as fh:
+with open("../../devstats-data/{{ project }}_issues.json", "r") as fh:
     issues = [item["node"] for item in json.loads(fh.read())]
 
 glue("{{ project }}_query_date", str(query_date.astype("M8[D]")))
@@ -257,7 +257,7 @@ first_commenter_tab.sort_values(
 tags: [hide-input]
 ---
 
-with open("../../_data/{{ project }}_prs.json", "r") as fh:
+with open("../../devstats-data/{{ project }}_prs.json", "r") as fh:
     prs = [item["node"] for item in json.loads(fh.read())]
 
 ### Filters
