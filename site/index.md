@@ -33,6 +33,7 @@ tags: []
 # For interactive plots
 from bokeh.plotting import figure, show, output_notebook
 from bokeh.palettes import Category10_10 as palette
+from bokeh.models import Legend
 output_notebook()
 ```
 
@@ -121,12 +122,18 @@ for proj, data in project_prs.items():
 tags: [remove-input]
 ---
 p = figure(
-    width=400,
+    width=600,
     height=400,
     title="Merged PRs per month",
     x_axis_type="datetime",
 )
+
+legend_items = []
 for (label, y), color in zip(merged_prs_per_month.items(), itertools.cycle(palette)):
-    p.line(x, y, color=color, legend_label=label)
+    l = p.line(x, y, color=color)
+    legend_items.append((label, [l]))
+
+legend = Legend(items=legend_items, orientation="horizontal")
+p.add_layout(legend, "below")
 show(p)
 ```
