@@ -139,6 +139,18 @@ p.add_layout(legend, "below")
 show(p)
 ```
 
+% TODO: Figure out why bokeh won't render when output_notebook is in a hidden cell
+
+```{code-cell} ipython3
+---
+tags: []
+---
+# For interactive plots
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.palettes import Category10_10 as palette
+output_notebook()
+```
+
 % TODO: automate project generation based on which data files are in devstats-data
 
 ```{code-cell} ipython3
@@ -196,7 +208,7 @@ for proj in projects:
 
 ```{code-cell} ipython3
 ---
-tags: [remove-input]
+tags: [remove-cell]
 ---
 # Num merged PRs per month
 start_date = today - year
@@ -206,10 +218,8 @@ bedges = np.array(
 # Proxy date for center of bin
 x = bedges[:-1] + np.timedelta64(15, "D")
 
-fig, ax = plt.subplots(figsize=(16, 12))
-ax.set_title("Merged PRs", fontsize=24)
-
 # NOTE: np.histogram doesn't work on datetimes
+merged_prs_per_month = dict()
 for proj, data in project_prs.items():
     merged_prs = data["merged_prs"]
     merge_dates = np.array([pr["mergedAt"] for pr in merged_prs], dtype="M8[D]")
@@ -218,7 +228,20 @@ for proj, data in project_prs.items():
         num_merged_per_month.append(
             sum(1 for md in merge_dates if md > lo and md < hi)
         )
-    ax.plot(x, num_merged_per_month, label=proj)
-ax.legend()
-plt.show()
+    merged_prs_per_month[proj] = num_merged_per_month
+```
+
+```{code-cell} ipython3
+---
+tags: [remove-input]
+---
+p = figure(
+    width=400,
+    height=400,
+    title="Merged PRs per month",
+    x_axis_type="datetime",
+)
+for (label, y), color in zip(merged_prs_per_month.items(), itertools.cycle(palette)):
+    p.line(x, y, color=color, legend_label=label)
+show(p)
 ```
