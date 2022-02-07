@@ -106,15 +106,25 @@ x = bedges[:-1] + np.timedelta64(15, "D")
 
 # NOTE: np.histogram doesn't work on datetimes
 merged_prs_per_month = dict()
+uniq_mergers_per_month = dict()
 for proj, data in project_prs.items():
     # Num merged PRs per month
     merged_prs = np.array(data["merged_prs"], dtype=object)
     merge_dates = np.array([pr["mergedAt"] for pr in merged_prs], dtype="M8[D]")
     num_merged_per_month = []
+    uniq_mergers = []
     for lo, hi in itertools.pairwise(bedges):
         month_mask = (merge_dates < hi) & (merge_dates > lo)
+
+        # Number of PRs merged per month
         num_merged_per_month.append(month_mask.sum())
+
+        # Number of unique maintainers who merged a PR in a given month
+        mergers = {pr["mergedBy"]["login"] for pr in merged_prs[month_mask]}
+        uniq_mergers.append(len(mergers))
+
     merged_prs_per_month[proj] = num_merged_per_month
+    uniq_mergers_per_month[proj] = uniq_mergers
 ```
 
 ```{code-cell} ipython3
@@ -236,12 +246,19 @@ for proj, data in project_prs.items():
 tags: [remove-input]
 ---
 p = figure(
-    width=400,
+    width=650,
     height=400,
-    title="Merged PRs per month",
+    title="Number of unique maintainers who merged at least 1 PR",
     x_axis_type="datetime",
 )
-for (label, y), color in zip(merged_prs_per_month.items(), itertools.cycle(palette)):
-    p.line(x, y, color=color, legend_label=label)
+
+legend_items = []
+for (label, y), color in zip(uniq_mergers_per_month.items(), itertools.cycle(palette)):
+    l = p.line(x, y, line_width=2, color=color, muted_alpha=0.2)
+    legend_items.append((label, [l]))
+
+legend = Legend(items=legend_items, orientation="horizontal")
+legend.click_policy = "mute"
+p.add_layout(legend, "below")
 show(p)
 ```
