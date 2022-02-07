@@ -122,7 +122,7 @@ for proj, data in project_prs.items():
 tags: [remove-input]
 ---
 p = figure(
-    width=600,
+    width=650,
     height=400,
     title="Merged PRs per month",
     x_axis_type="datetime",
@@ -130,10 +130,11 @@ p = figure(
 
 legend_items = []
 for (label, y), color in zip(merged_prs_per_month.items(), itertools.cycle(palette)):
-    l = p.line(x, y, color=color)
+    l = p.line(x, y, line_width=2, color=color, muted_alpha=0.2)
     legend_items.append((label, [l]))
 
 legend = Legend(items=legend_items, orientation="horizontal")
+legend.click_policy = "mute"
 p.add_layout(legend, "below")
 show(p)
 ```
