@@ -107,13 +107,13 @@ x = bedges[:-1] + np.timedelta64(15, "D")
 # NOTE: np.histogram doesn't work on datetimes
 merged_prs_per_month = dict()
 for proj, data in project_prs.items():
-    merged_prs = data["merged_prs"]
+    # Num merged PRs per month
+    merged_prs = np.array(data["merged_prs"], dtype=object)
     merge_dates = np.array([pr["mergedAt"] for pr in merged_prs], dtype="M8[D]")
     num_merged_per_month = []
     for lo, hi in itertools.pairwise(bedges):
-        num_merged_per_month.append(
-            sum(1 for md in merge_dates if md > lo and md < hi)
-        )
+        month_mask = (merge_dates < hi) & (merge_dates > lo)
+        num_merged_per_month.append(month_mask.sum())
     merged_prs_per_month[proj] = num_merged_per_month
 ```
 
