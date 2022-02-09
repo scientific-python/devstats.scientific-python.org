@@ -5,9 +5,8 @@ This website tracks the recent development history of the Scientific Python
 ecosystem.
 
 ```{toctree}
----
-maxdepth: 1
----
+:maxdepth: 1
+:hidden: true
 
-numpy_timeseries
+project_reports
 ```
