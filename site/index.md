@@ -113,7 +113,7 @@ for proj, data in project_prs.items():
     merge_dates = np.array([pr["mergedAt"] for pr in merged_prs], dtype="M8[D]")
     num_merged_per_month = []
     uniq_mergers = []
-    for lo, hi in itertools.pairwise(bedges):
+    for lo, hi in zip(bedges[:-1], bedges[1:]):
         month_mask = (merge_dates < hi) & (merge_dates > lo)
 
         # Number of PRs merged per month
