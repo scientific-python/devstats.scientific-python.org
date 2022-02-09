@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'devstats'
+project = 'Scientific Python Developer Statistics'
 copyright = '2022, Scientific Python community'
 author = 'rossbar'
 
@@ -29,6 +29,7 @@ author = 'rossbar'
 # ones.
 extensions = [
     "myst_nb",
+    "sphinx_panels",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -46,9 +47,19 @@ execution_excludepatterns = ["analysis_template.md"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'pydata_sphinx_theme'
-html_logo = '_static/scientific-python-logo.png'
 html_favicon = '_static/favicon.ico'
+html_theme = 'pydata_sphinx_theme'
+html_theme_options = {
+    "github_url": "https://github.com/scientific-python/devstats.scientific-python.org",
+    "icon_links": [
+        {
+            "name": "Scientific Python",
+            "url": "https://scientific-python.org",
+            "icon": "_static/scientific-python-logo.png",
+            "type": "local",
+        },
+    ],
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
