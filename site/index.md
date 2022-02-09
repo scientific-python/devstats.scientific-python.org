@@ -123,8 +123,8 @@ for proj, data in project_prs.items():
         mergers = {pr["mergedBy"]["login"] for pr in merged_prs[month_mask]}
         uniq_mergers.append(len(mergers))
 
-    merged_prs_per_month[proj] = num_merged_per_month
-    uniq_mergers_per_month[proj] = uniq_mergers
+    merged_prs_per_month[proj] = np.array(num_merged_per_month)
+    uniq_mergers_per_month[proj] = np.array(uniq_mergers)
 ```
 
 ```{code-cell} ipython3
@@ -255,6 +255,28 @@ p = figure(
 legend_items = []
 for (label, y), color in zip(uniq_mergers_per_month.items(), itertools.cycle(palette)):
     l = p.line(x, y, line_width=2, color=color, muted_alpha=0.2)
+    legend_items.append((label, [l]))
+
+legend = Legend(items=legend_items, orientation="horizontal")
+legend.click_policy = "mute"
+p.add_layout(legend, "below")
+show(p)
+```
+
+```{code-cell} ipython3
+---
+tags: [remove-input]
+---
+p = figure(
+    width=650,
+    height=400,
+    title="Avg # PRs merged per maintainer",
+    x_axis_type="datetime",
+)
+
+legend_items = []
+for (label, y), (_, n), color in zip(merged_prs_per_month.items(), uniq_mergers_per_month.items(), itertools.cycle(palette)):
+    l = p.line(x, y / n, line_width=2, color=color, muted_alpha=0.2)
     legend_items.append((label, [l]))
 
 legend = Legend(items=legend_items, orientation="horizontal")
