@@ -47,6 +47,8 @@ execution_excludepatterns = ["analysis_template.md"]
 # a list of builtin themes.
 #
 html_theme = 'pydata_sphinx_theme'
+html_logo = '_static/scientific-python-logo.png'
+html_favicon = '_static/favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
