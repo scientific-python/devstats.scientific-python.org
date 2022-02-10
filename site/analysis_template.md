@@ -11,6 +11,8 @@ kernelspec:
   name: python3
 ---
 
+:orphan:
+
 # `{{ project }}`
 
 ```{code-cell} ipython3

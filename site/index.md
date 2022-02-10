@@ -8,7 +8,6 @@ ecosystem.
 :column: col-lg-4 px-2 py-2
 :card:
 
- 
 ![Merged NumPy PRs over time](_images/numpy_19_0.png)
 
 ```{link-button} _generated/numpy
@@ -77,11 +76,3 @@ ecosystem.
 ```
 
 ````
-
-
-```{toctree}
-:maxdepth: 1
-:hidden: true
-
-_generated/*
-```
