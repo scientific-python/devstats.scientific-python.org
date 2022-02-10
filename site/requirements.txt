@@ -5,6 +5,7 @@ pandas
 bokeh
 # For the site
 sphinx
+sphinx_panels
 myst-nb
 ghp-import
 pydata-sphinx-theme
