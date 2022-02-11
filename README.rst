@@ -28,7 +28,6 @@ git submodule update --init
 Then the site can be built with:
 
 ```bash
-cd site
 make html
 ```
 
