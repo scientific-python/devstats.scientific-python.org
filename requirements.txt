@@ -1,6 +1,0 @@
-requests
-jupyter
-notebook
-numpy
-networkx
-click
