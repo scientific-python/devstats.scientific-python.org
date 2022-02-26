@@ -345,7 +345,12 @@ axes[0].set_xlabel('Time')
 axes[0].set_ylabel(f'# Merged PRs / {binsize} interval')
 axes[1].set_ylim(axes[0].get_ylim())
 fig.autofmt_xdate()
-plt.show()
+
+# TODO: Replace this with `glue` once the glue:figure directive supports
+# alt-text
+import os
+os.makedirs("thumbs", exist_ok=True)
+plt.savefig("thumbs/{{ project }}.png", bbox_inches="tight")
 ```
 
 ### Mergeability of Open PRs
