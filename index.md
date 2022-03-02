@@ -3,12 +3,15 @@
 This website tracks the recent development history of the Scientific Python
 ecosystem.
 
+% TODO: Replace markdown image links with `glue:figure` once it starts
+% supporting alt text
+
 ````{panels}
 :container: +full-width text-center
 :column: col-lg-4 px-2 py-2
 :card:
 
-![Merged NumPy PRs over time](_images/numpy_19_0.png)
+![Merged NumPy PRs over time](_generated/thumbs/numpy.png)
 
 ```{link-button} _generated/numpy
 :text: NumPy stats
@@ -18,7 +21,7 @@ ecosystem.
 
 ---
 
-![Merged SciPy PRs over time](_images/scipy_19_0.png)
+![Merged SciPy PRs over time](_generated/thumbs/scipy.png)
 
 ```{link-button} _generated/scipy
 :text: SciPy stats
@@ -28,7 +31,7 @@ ecosystem.
 
 ---
 
-![Merged Matplotlib PRs over time](_images/matplotlib_19_0.png)
+![Merged Matplotlib PRs over time](_generated/thumbs/matplotlib.png)
 
 ```{link-button} _generated/matplotlib
 :text: Matplotlib stats
@@ -37,7 +40,7 @@ ecosystem.
 ```
 ---
 
-![Merged Pandas PRs over time](_images/pandas_19_0.png)
+![Merged Pandas PRs over time](_generated/thumbs/pandas.png)
 
 ```{link-button} _generated/pandas
 :text: Pandas stats
@@ -47,7 +50,7 @@ ecosystem.
 
 ---
 
-![Merged scikit-learn PRs over time](_images/scikit-learn_19_0.png)
+![Merged scikit-learn PRs over time](_generated/thumbs/scikit-learn.png)
 
 ```{link-button} _generated/scikit-learn
 :text: scikit-learn stats
@@ -57,7 +60,7 @@ ecosystem.
 
 ---
 
-![Merged scikit-image PRs over time](_images/scikit-image_19_0.png)
+![Merged scikit-image PRs over time](_generated/thumbs/scikit-image.png)
 
 ```{link-button} _generated/scikit-image
 :text: scikit-image stats
@@ -67,7 +70,7 @@ ecosystem.
 
 ---
 
-![Merged NetworkX PRs over time](_images/networkx_19_0.png)
+![Merged NetworkX PRs over time](_generated/thumbs/networkx.png)
 
 ```{link-button} _generated/networkx
 :text: NetworkX stats

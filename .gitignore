@@ -3,8 +3,5 @@ __pycache__/*
 *.swp
 *.egg-info
 _data/*
-site/_build/*
-site/_generated/*
-site/content/_generated/*
-# Ignore text version of issues table
-top_issues_table.md
+_build/*
+_generated/*
