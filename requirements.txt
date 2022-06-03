@@ -4,7 +4,7 @@ matplotlib
 pandas
 bokeh
 # For the site
-sphinx
+sphinx<5
 sphinx_panels
 myst-nb<0.14
 ghp-import
