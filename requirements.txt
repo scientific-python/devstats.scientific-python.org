@@ -6,7 +6,7 @@ bokeh
 # For the site
 sphinx
 sphinx_panels
-myst-nb
+myst-nb<0.14
 ghp-import
 pydata-sphinx-theme
 jupytext
