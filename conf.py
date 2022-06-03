@@ -46,7 +46,7 @@ exclude_patterns = [
     "README.rst",
     "devstats-data/*"
 ]
-execution_excludepatterns = ["analysis_template.md"]
+nb_execution_excludepatterns = ["analysis_template.md"]
 
 
 # -- Options for HTML output -------------------------------------------------
