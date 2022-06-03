@@ -10,3 +10,5 @@ myst-nb<0.14
 ghp-import
 pydata-sphinx-theme
 jupytext
+# UNDO ME: everything below is hacks for netlify
+markdown-it-py<2.0.0
