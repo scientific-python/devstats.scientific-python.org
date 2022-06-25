@@ -4,11 +4,9 @@ matplotlib
 pandas
 bokeh
 # For the site
-sphinx<5
+sphinx
 sphinx_panels
-myst-nb<0.14
+myst-nb
 ghp-import
 pydata-sphinx-theme
 jupytext
-# UNDO ME: everything below is hacks for netlify
-markdown-it-py<2.0.0
