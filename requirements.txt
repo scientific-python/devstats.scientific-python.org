@@ -7,6 +7,5 @@ bokeh
 sphinx
 sphinx_design
 myst-nb
-ghp-import
 pydata-sphinx-theme
 jupytext
