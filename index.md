@@ -16,7 +16,7 @@ ecosystem.
 ```{button-ref} _generated/numpy
 :color: primary
 :expand:
-NumPy stats
+NumPy
 ```
 ````
 
@@ -26,7 +26,7 @@ NumPy stats
 ```{button-ref} _generated/scipy
 :color: primary
 :expand:
-SciPy stats
+SciPy
 ```
 ````
 
@@ -36,7 +36,7 @@ SciPy stats
 ```{button-ref} _generated/matplotlib
 :color: primary
 :expand:
-Matplotlib stats
+Matplotlib
 ```
 ````
 
@@ -46,7 +46,7 @@ Matplotlib stats
 ```{button-ref} _generated/pandas
 :color: primary
 :expand:
-Pandas stats
+Pandas
 ```
 ````
 
@@ -56,7 +56,7 @@ Pandas stats
 ```{button-ref} _generated/scikit-learn
 :color: primary
 :expand:
-scikit-learn stats
+scikit-learn
 ```
 ````
 
@@ -66,7 +66,7 @@ scikit-learn stats
 ```{button-ref} _generated/scikit-image
 :color: primary
 :expand:
-scikit-image stats
+scikit-image
 ```
 ````
 
@@ -76,7 +76,7 @@ scikit-image stats
 ```{button-ref} _generated/networkx
 :color: primary
 :expand:
-NetworkX stats
+NetworkX
 ```
 ````
 
