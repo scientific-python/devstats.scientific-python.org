@@ -69,6 +69,7 @@ html_theme_options = {
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
 }
 html_context = {"default_mode": "light"}
+html_title = "Scientific Python Developer Statistics"
 html_sidebars = {
     "**": []
 }
