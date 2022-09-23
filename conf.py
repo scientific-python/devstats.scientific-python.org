@@ -43,7 +43,7 @@ exclude_patterns = [
     'Thumbs.db',
     '.DS_Store',
     "analysis_template.md",
-    "README.rst",
+    "README.md",
     "devstats-data/*"
 ]
 nb_execution_excludepatterns = ["analysis_template.md"]
