@@ -33,7 +33,10 @@ _generated/scikit-image.md: analysis_template.md
 _generated/networkx.md: analysis_template.md
 	python tools/generate_from_template.py networkx
 
-html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md
+_generated/astropy.md: analysis_template.md
+	python tools/generate_from_template.py astropy
+
+html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md _generated/astropy.md
 	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 
 clean: 

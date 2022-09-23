@@ -80,4 +80,14 @@ NetworkX
 ```
 ````
 
+````{grid-item-card}
+![Merged astropy PRs over time](_generated/thumbs/astropy.png)
+
+```{button-ref} _generated/astropy
+:color: primary
+:expand:
+Astropy
+```
+````
+
 `````
