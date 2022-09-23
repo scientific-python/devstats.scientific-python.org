@@ -66,7 +66,9 @@ html_theme_options = {
             "type": "local",
         },
     ],
+    "navbar_end": ["theme-switcher", "navbar-icon-links"],
 }
+html_context = {"default_mode": "light"}
 html_sidebars = {
     "**": []
 }
