@@ -43,7 +43,7 @@ exclude_patterns = [
     'Thumbs.db',
     '.DS_Store',
     "analysis_template.md",
-    "README.rst",
+    "README.md",
     "devstats-data/*"
 ]
 nb_execution_excludepatterns = ["analysis_template.md"]
@@ -66,7 +66,10 @@ html_theme_options = {
             "type": "local",
         },
     ],
+    "navbar_end": ["theme-switcher", "navbar-icon-links"],
 }
+html_context = {"default_mode": "light"}
+html_title = "Scientific Python Developer Statistics"
 html_sidebars = {
     "**": []
 }
