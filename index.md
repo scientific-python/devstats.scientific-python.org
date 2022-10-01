@@ -90,4 +90,15 @@ Astropy
 ```
 ````
 
+````{grid-item-card}
+![Merged sunpy PRs over time](_generated/thumbs/sunpy.png)
+
+```{button-ref} _generated/sunpy
+:color: primary
+:expand:
+sunpy
+```
+````
+
+
 `````
