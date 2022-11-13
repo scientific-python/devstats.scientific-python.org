@@ -573,10 +573,14 @@ num_merged_prs = num_merged_prs_per_author.sum()
 pf_thresh = 0.5
 pony_factor = np.searchsorted(
     np.cumsum(num_merged_prs_per_author), num_merged_prs * pf_thresh
-)
+) + 1
 
 fig, ax = plt.subplots()
-ax.plot(np.cumsum(num_merged_prs_per_author), ".")
+ax.plot(
+    np.arange(len(num_merged_prs_per_author)) + 1,
+    np.cumsum(num_merged_prs_per_author),
+    "."
+)
 ax.set_title(f"How the pony factor is calculated")
 ax.set_xlabel("# unique contributors")
 ax.set_xscale("log")
