@@ -573,7 +573,7 @@ num_merged_prs = num_merged_prs_per_author.sum()
 pf_thresh = 0.5
 pony_factor = np.searchsorted(
     np.cumsum(num_merged_prs_per_author), num_merged_prs * pf_thresh
-)
+) + 1
 
 fig, ax = plt.subplots()
 ax.plot(np.cumsum(num_merged_prs_per_author), ".")
