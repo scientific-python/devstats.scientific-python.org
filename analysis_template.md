@@ -272,7 +272,7 @@ prs = [pr for pr in prs if pr["baseRefName"] in default_branches]
 prs = [pr for pr in prs if pr["author"]]  # Failed author query results in None
 
 # Filter out PRs by bots
-bot_filter = {"dependabot-preview", "meeseeksmachine", "github-actions"}
+bot_filter = {"dependabot-preview", "github-actions", "meeseeksmachine", "pre-commit-ci[bot]"}
 prs = [pr for pr in prs if pr["author"]["login"] not in bot_filter]
 ```
 
