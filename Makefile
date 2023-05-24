@@ -13,31 +13,31 @@ help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 _generated/numpy.md: 
-	devstats numpy
+	devstats publish numpy
 
 _generated/scipy.md: 
-	devstats scipy
+	devstats publish scipy
 
 _generated/matplotlib.md: 
-	devstats matplotlib
+	devstats publish matplotlib
 
 _generated/pandas.md: 
-	devstats pandas
+	devstats publish pandas
 
 _generated/scikit-learn.md: 
-	devstats scikit-learn
+	devstats publish scikit-learn
 
 _generated/scikit-image.md: 
-	devstats scikit-image
+	devstats publish scikit-image
 
 _generated/networkx.md: 
-	devstats networkx
+	devstats publish networkx
 
 _generated/astropy.md: 
-	devstats astropy
+	devstats publish astropy
 
 _generated/sunpy.md: 
-	devstats sunpy
+	devstats publish sunpy
 
 html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md _generated/astropy.md _generated/sunpy.md
 	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
