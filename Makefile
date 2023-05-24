@@ -12,32 +12,32 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-_generated/numpy.md: analysis_template.md
-	python tools/generate_from_template.py numpy
+_generated/numpy.md: 
+	devstats numpy
 
-_generated/scipy.md: analysis_template.md
-	python tools/generate_from_template.py scipy
+_generated/scipy.md: 
+	devstats scipy
 
-_generated/matplotlib.md: analysis_template.md
-	python tools/generate_from_template.py matplotlib
+_generated/matplotlib.md: 
+	devstats matplotlib
 
-_generated/pandas.md: analysis_template.md
-	python tools/generate_from_template.py pandas
+_generated/pandas.md: 
+	devstats pandas
 
-_generated/scikit-learn.md: analysis_template.md
-	python tools/generate_from_template.py scikit-learn
+_generated/scikit-learn.md: 
+	devstats scikit-learn
 
-_generated/scikit-image.md: analysis_template.md
-	python tools/generate_from_template.py scikit-image
+_generated/scikit-image.md: 
+	devstats scikit-image
 
-_generated/networkx.md: analysis_template.md
-	python tools/generate_from_template.py networkx
+_generated/networkx.md: 
+	devstats networkx
 
-_generated/astropy.md: analysis_template.md
-	python tools/generate_from_template.py astropy
+_generated/astropy.md: 
+	devstats astropy
 
-_generated/sunpy.md: analysis_template.md
-	python tools/generate_from_template.py sunpy
+_generated/sunpy.md: 
+	devstats sunpy
 
 html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md _generated/astropy.md _generated/sunpy.md
 	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)

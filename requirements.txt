@@ -1,4 +1,5 @@
 # For analysis
+devstats==0.1rc1
 numpy
 matplotlib
 pandas
