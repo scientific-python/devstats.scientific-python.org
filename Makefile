@@ -12,38 +12,28 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-_generated/numpy.md:
-	devstats publish numpy
+PROJECTS = numpy scipy matplotlib pandas scikit-learn scikit-image networkx astropy sunpy
+ISSUE_DATA = $(patsubst %, devstats-data/%_issues.json, $(PROJECTS))
+PR_DATA = $(patsubst %, devstats-data/%_PRs.json, $(PROJECTS))
+REPORTS = $(patsubst %, _generated/%/index.md, $(PROJECTS))
 
-_generated/scipy.md:
-	devstats publish scipy
+$(REPORTS) : $(ISSUE_DATA) $(PR_DATA)
 
-_generated/matplotlib.md:
-	devstats publish matplotlib
+devstats-data/%_issues.json :
+	devstats query -o devstats-data $* $*
 
-_generated/pandas.md:
-	devstats publish pandas
+devstats-data/%_PRs.json : devstats-data/%_issues.json
 
-_generated/scikit-learn.md:
-	devstats publish scikit-learn
+_generated/%/index.md:
+	devstats template -o _template $*
+	devstats publish -t _template -o _generated $*
+	ln -s $(PWD)/devstats-data _generated/$*
 
-_generated/scikit-image.md:
-	devstats publish scikit-image
-
-_generated/networkx.md:
-	devstats publish networkx
-
-_generated/astropy.md:
-	devstats publish astropy
-
-_generated/sunpy.md:
-	devstats publish sunpy
-
-html : _generated/numpy.md _generated/scipy.md _generated/matplotlib.md _generated/pandas.md _generated/scikit-learn.md _generated/scikit-image.md _generated/networkx.md _generated/astropy.md _generated/sunpy.md
+html : $(REPORTS)
 	$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 
-clean: 
-	rm -rf _build _generated
+clean:
+	rm -rf _build _template _generated
 
 .PHONY: help clean
 
