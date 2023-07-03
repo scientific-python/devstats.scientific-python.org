@@ -14,7 +14,7 @@ help:
 
 PROJECTS = numpy scipy matplotlib pandas scikit-learn scikit-image networkx astropy sunpy
 ISSUE_DATA = $(patsubst %, devstats-data/%_issues.json, $(PROJECTS))
-PR_DATA = $(patsubst %, devstats-data/%_PRs.json, $(PROJECTS))
+PR_DATA = $(patsubst %, devstats-data/%_prs.json, $(PROJECTS))
 REPORTS = $(patsubst %, _generated/%/index.md, $(PROJECTS))
 
 $(REPORTS) : $(ISSUE_DATA) $(PR_DATA)
@@ -22,7 +22,7 @@ $(REPORTS) : $(ISSUE_DATA) $(PR_DATA)
 devstats-data/%_issues.json :
 	devstats query -o devstats-data $* $*
 
-devstats-data/%_PRs.json : devstats-data/%_issues.json
+devstats-data/%_prs.json : devstats-data/%_issues.json
 
 _generated/%/index.md:
 	devstats template -o _template $*
