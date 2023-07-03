@@ -5,3 +5,4 @@ __pycache__/*
 _data/*
 _build/*
 _generated/*
+_template/*

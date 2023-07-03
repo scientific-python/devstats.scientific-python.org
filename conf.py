@@ -44,7 +44,8 @@ exclude_patterns = [
     '.DS_Store',
     "analysis_template.md",
     "README.md",
-    "devstats-data/*"
+    "devstats-data/*",
+    "_template"
 ]
 nb_execution_excludepatterns = ["analysis_template.md"]
 

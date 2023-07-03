@@ -11,9 +11,9 @@ ecosystem.
 :gutter: 2
 
 ````{grid-item-card}
-![Merged NumPy PRs over time](_generated/thumbs/numpy.png)
+![Merged NumPy PRs over time](_generated/numpy/thumbs/numpy.png)
 
-```{button-ref} _generated/numpy
+```{button-ref} _generated/numpy/index
 :color: primary
 :expand:
 NumPy
@@ -21,9 +21,9 @@ NumPy
 ````
 
 ````{grid-item-card}
-![Merged SciPy PRs over time](_generated/thumbs/scipy.png)
+![Merged SciPy PRs over time](_generated/scipy/thumbs/scipy.png)
 
-```{button-ref} _generated/scipy
+```{button-ref} _generated/scipy/index
 :color: primary
 :expand:
 SciPy
@@ -31,9 +31,9 @@ SciPy
 ````
 
 ````{grid-item-card}
-![Merged Matplotlib PRs over time](_generated/thumbs/matplotlib.png)
+![Merged Matplotlib PRs over time](_generated/matplotlib/thumbs/matplotlib.png)
 
-```{button-ref} _generated/matplotlib
+```{button-ref} _generated/matplotlib/index
 :color: primary
 :expand:
 Matplotlib
@@ -41,9 +41,9 @@ Matplotlib
 ````
 
 ````{grid-item-card}
-![Merged Pandas PRs over time](_generated/thumbs/pandas.png)
+![Merged Pandas PRs over time](_generated/pandas/thumbs/pandas.png)
 
-```{button-ref} _generated/pandas
+```{button-ref} _generated/pandas/index
 :color: primary
 :expand:
 Pandas
@@ -51,9 +51,9 @@ Pandas
 ````
 
 ````{grid-item-card}
-![Merged scikit-learn PRs over time](_generated/thumbs/scikit-learn.png)
+![Merged scikit-learn PRs over time](_generated/scikit-learn/thumbs/scikit-learn.png)
 
-```{button-ref} _generated/scikit-learn
+```{button-ref} _generated/scikit-learn/index
 :color: primary
 :expand:
 scikit-learn
@@ -61,9 +61,9 @@ scikit-learn
 ````
 
 ````{grid-item-card}
-![Merged scikit-image PRs over time](_generated/thumbs/scikit-image.png)
+![Merged scikit-image PRs over time](_generated/scikit-image/thumbs/scikit-image.png)
 
-```{button-ref} _generated/scikit-image
+```{button-ref} _generated/scikit-image/index
 :color: primary
 :expand:
 scikit-image
@@ -71,9 +71,9 @@ scikit-image
 ````
 
 ````{grid-item-card}
-![Merged NetworkX PRs over time](_generated/thumbs/networkx.png)
+![Merged NetworkX PRs over time](_generated/networkx/thumbs/networkx.png)
 
-```{button-ref} _generated/networkx
+```{button-ref} _generated/networkx/index
 :color: primary
 :expand:
 NetworkX
@@ -81,9 +81,9 @@ NetworkX
 ````
 
 ````{grid-item-card}
-![Merged astropy PRs over time](_generated/thumbs/astropy.png)
+![Merged astropy PRs over time](_generated/astropy/thumbs/astropy.png)
 
-```{button-ref} _generated/astropy
+```{button-ref} _generated/astropy/index
 :color: primary
 :expand:
 Astropy
@@ -91,9 +91,9 @@ Astropy
 ````
 
 ````{grid-item-card}
-![Merged sunpy PRs over time](_generated/thumbs/sunpy.png)
+![Merged sunpy PRs over time](_generated/sunpy/thumbs/sunpy.png)
 
-```{button-ref} _generated/sunpy
+```{button-ref} _generated/sunpy/index
 :color: primary
 :expand:
 sunpy
