@@ -14,11 +14,12 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+from datetime import date
 
 # -- Project information -----------------------------------------------------
 
 project = 'Scientific Python Developer Statistics'
-copyright = '2022, Scientific Python community'
+copyright = f'2022--{date.today().year}, Scientific Python community'
 author = 'rossbar'
 
 
