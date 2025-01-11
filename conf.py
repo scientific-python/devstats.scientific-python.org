@@ -19,8 +19,8 @@ from datetime import date
 # -- Project information -----------------------------------------------------
 
 project = 'Scientific Python Developer Statistics'
-copyright = f'2022--{date.today().year}, Scientific Python community'
-author = 'rossbar'
+copyright = f'2022–{date.today().year}, Scientific Python community'
+author = 'Scientific Python Community'
 
 
 # -- General configuration ---------------------------------------------------
@@ -80,3 +80,6 @@ html_sidebars = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# Add build date to each page
+html_last_updated_fmt = '%Y-%m-%d %H:%M%Z'

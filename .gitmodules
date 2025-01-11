@@ -1,3 +1,0 @@
-[submodule "devstats-data"]
-	path = devstats-data
-	url = https://github.com/scientific-python/devstats-data.git

@@ -4,7 +4,7 @@ matplotlib
 pandas
 bokeh
 # For the site
-devstats==0.1rc3
+devstats @ git+https://github.com/scientific-python/devstats@main
 sphinx
 sphinx_design
 myst-nb
