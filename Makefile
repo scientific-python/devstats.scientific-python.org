@@ -14,7 +14,7 @@ SHELL := bash
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-PROJECTS = numpy scipy matplotlib pandas scikit-learn scikit-image networkx astropy sunpy
+PROJECTS = numpy scipy pandas scikit-learn scikit-image networkx astropy sunpy
 ISSUE_DATA = $(patsubst %, devstats-data/%_issues.json, $(PROJECTS))
 PR_DATA = $(patsubst %, devstats-data/%_PRs.json, $(PROJECTS))
 REPORTS = $(patsubst %, _generated/%/index.md, $(PROJECTS))

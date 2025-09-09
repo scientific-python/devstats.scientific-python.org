@@ -30,6 +30,7 @@ SciPy
 ```
 ````
 
+<!--
 ````{grid-item-card}
 ![Merged Matplotlib PRs over time](_generated/matplotlib/thumbs/matplotlib.png)
 
@@ -39,6 +40,8 @@ SciPy
 Matplotlib
 ```
 ````
+-->
+
 
 ````{grid-item-card}
 ![Merged Pandas PRs over time](_generated/pandas/thumbs/pandas.png)
